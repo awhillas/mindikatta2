@@ -1,0 +1,4 @@
+pip-tools
+django
+django-extensions
+Werkzeug
