@@ -1,0 +1,112 @@
+[
+{
+  "model": "harvest.variety",
+  "pk": 1,
+  "fields": {
+    "name": "H2/East block",
+    "block": "",
+    "charting_colour": "00ffff",
+    "farm": "MK"
+  }
+},
+{
+  "model": "harvest.variety",
+  "pk": 2,
+  "fields": {
+    "name": "H2/School block",
+    "block": "",
+    "charting_colour": "0000ff",
+    "farm": "MK"
+  }
+},
+{
+  "model": "harvest.variety",
+  "pk": 3,
+  "fields": {
+    "name": "Owners Choice (OC)",
+    "block": "",
+    "charting_colour": "008000",
+    "farm": "MK"
+  }
+},
+{
+  "model": "harvest.variety",
+  "pk": 4,
+  "fields": {
+    "name": "Nutty Glens (NG)",
+    "block": "",
+    "charting_colour": "808000",
+    "farm": "MK"
+  }
+},
+{
+  "model": "harvest.variety",
+  "pk": 5,
+  "fields": {
+    "name": "D4",
+    "block": "",
+    "charting_colour": "008080",
+    "farm": "MK"
+  }
+},
+{
+  "model": "harvest.variety",
+  "pk": 6,
+  "fields": {
+    "name": "246",
+    "block": "",
+    "charting_colour": "000080",
+    "farm": "MK"
+  }
+},
+{
+  "model": "harvest.variety",
+  "pk": 7,
+  "fields": {
+    "name": "floaters (MK)",
+    "block": "-",
+    "charting_colour": "800000",
+    "farm": "MK"
+  }
+},
+{
+  "model": "harvest.variety",
+  "pk": 56,
+  "fields": {
+    "name": "Mixed (WW/NC)",
+    "block": "",
+    "charting_colour": "",
+    "farm": "WW"
+  }
+},
+{
+  "model": "harvest.variety",
+  "pk": 57,
+  "fields": {
+    "name": "Mixed (OC)",
+    "block": "",
+    "charting_colour": "",
+    "farm": "OC"
+  }
+},
+{
+  "model": "harvest.variety",
+  "pk": 58,
+  "fields": {
+    "name": "floaters (OC)",
+    "block": "-",
+    "charting_colour": "800000",
+    "farm": "OC"
+  }
+},
+{
+  "model": "harvest.variety",
+  "pk": 59,
+  "fields": {
+    "name": "floaters (WW)",
+    "block": "-",
+    "charting_colour": "800000",
+    "farm": "WW"
+  }
+}
+]

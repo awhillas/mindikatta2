@@ -1,0 +1,101 @@
+[
+{
+  "model": "harvest.silo",
+  "pk": 1,
+  "fields": {
+    "name": "#1, Export",
+    "capacity": 15000,
+    "export": true
+  }
+},
+{
+  "model": "harvest.silo",
+  "pk": 2,
+  "fields": {
+    "name": "#2",
+    "capacity": 15000,
+    "export": false
+  }
+},
+{
+  "model": "harvest.silo",
+  "pk": 3,
+  "fields": {
+    "name": "#3",
+    "capacity": 11500,
+    "export": false
+  }
+},
+{
+  "model": "harvest.silo",
+  "pk": 4,
+  "fields": {
+    "name": "#4",
+    "capacity": 11500,
+    "export": false
+  }
+},
+{
+  "model": "harvest.silo",
+  "pk": 5,
+  "fields": {
+    "name": "#5",
+    "capacity": 30000,
+    "export": false
+  }
+},
+{
+  "model": "harvest.silo",
+  "pk": 6,
+  "fields": {
+    "name": "#6, Export",
+    "capacity": 12800,
+    "export": true
+  }
+},
+{
+  "model": "harvest.silo",
+  "pk": 7,
+  "fields": {
+    "name": "boxes",
+    "capacity": 10000,
+    "export": true
+  }
+},
+{
+  "model": "harvest.silo",
+  "pk": 8,
+  "fields": {
+    "name": "OC #11",
+    "capacity": 15000,
+    "export": true
+  }
+},
+{
+  "model": "harvest.silo",
+  "pk": 9,
+  "fields": {
+    "name": "OC #12",
+    "capacity": 15000,
+    "export": false
+  }
+},
+{
+  "model": "harvest.silo",
+  "pk": 10,
+  "fields": {
+    "name": "OC #13",
+    "capacity": 15000,
+    "export": false
+  }
+},
+{
+  "model": "harvest.silo",
+  "pk": 11,
+  "fields": {
+    "name": "OC #14",
+    "capacity": 15000,
+    "export": false
+  }
+}
+]

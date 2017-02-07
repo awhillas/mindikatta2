@@ -1,4 +1,11 @@
 pip-tools
 django
 django-extensions
+django-crispy-forms
+django-html5
+
+# Debugging
+
+django-nose
 Werkzeug
+# django-debug-toolbar

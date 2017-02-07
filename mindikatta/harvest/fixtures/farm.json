@@ -1,0 +1,26 @@
+[
+{
+  "model": "harvest.farm",
+  "pk": "MK",
+  "fields": {
+    "name": "Mindikatta",
+    "address": "326 Rosebank Rd"
+  }
+},
+{
+  "model": "harvest.farm",
+  "pk": "OC",
+  "fields": {
+    "name": "Old Cudgerie",
+    "address": "237 Rosebank Rd"
+  }
+},
+{
+  "model": "harvest.farm",
+  "pk": "WW",
+  "fields": {
+    "name": "Water Wheel",
+    "address": "275 Rosebank Rd"
+  }
+}
+]

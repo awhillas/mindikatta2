@@ -17,9 +17,6 @@ class SalesDocketAdmin(admin.ModelAdmin):
 		'delivery_weight',
 		'percent_moisture',
 		'net_payment',
-		'premium_weight',
-		'commercial_weight',
-		'oil_weight',
 	)
 	list_filter = ('date',)
 admin.site.register(SalesDocket, SalesDocketAdmin)
@@ -45,10 +42,10 @@ class WeighingsAdmin(admin.ModelAdmin):
 		'operation',
 		'variety',
 		'weight',
-		'silo_emptyed',
+		# 'silo_emptyed',
 		'to_silo',
 		'from_silo',
 	)
-	list_filter = ('silo_emptyed', 'report_date')
+	list_filter = ('report_date',)
 	raw_id_fields = ('to_silo', 'from_silo', 'variety')
 admin.site.register(Weighings, WeighingsAdmin)
