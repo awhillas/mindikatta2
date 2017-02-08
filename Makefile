@@ -2,7 +2,7 @@ go:
 	python ./manage.py runserver_plus
 
 deps:
-	pip-compile --output-file requirements.txt requirements.in
+	pip-compile --output-file requirements.txt ./config/requirements.in
 	pip-sync requirements.txt
 
 migrate:
@@ -14,3 +14,6 @@ test:
 
 deploy:
 	git push heroku master
+
+logs:
+	heroku logs --app mindikatta

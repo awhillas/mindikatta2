@@ -28,7 +28,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 SECRET_KEY = 'l(t((fr6q=u9#ifq5vm8tt5(*)q5rlgle2n(na4uo5(5#4*hxp'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DJANGO_DEBUG', True)
+
+WSGI_APPLICATION = 'config.wsgi.application'
 
 ALLOWED_HOSTS = []
 

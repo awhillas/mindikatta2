@@ -1,8 +1,12 @@
 pip-tools
+psycopg2
+dj-database-url
 django
 django-extensions
 django-crispy-forms
 django-html5
+gunicorn
+
 
 # Debugging
 
