@@ -18,3 +18,5 @@ tests/report/
 *.sqlite3
 
 *.DS_Store
+
+staticfiles/

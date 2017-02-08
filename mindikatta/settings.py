@@ -19,6 +19,8 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "mindikatta", "static"),
 ]
 
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 

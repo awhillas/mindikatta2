@@ -11,3 +11,6 @@ migrate:
 
 test:
 	python ./manage.py test --traceback --failfast -v 1
+
+deploy:
+	git push heroku master
