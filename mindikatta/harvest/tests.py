@@ -78,3 +78,7 @@ class HarvestFormTests(TestCase):
 		form = forms.SalesDocketForm(data=form_data)
 		# pprint(form.errors)
 		self.assertTrue(form.is_valid())
+
+
+# class HarvestCRUDViewTests(TestCase):
+# 	def

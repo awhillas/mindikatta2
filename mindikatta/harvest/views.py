@@ -7,7 +7,7 @@ from django.shortcuts import render
 from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.forms.models import model_to_dict
 
 from . import models, forms
@@ -21,7 +21,7 @@ class Home(BaseTemplateView):
 	template_name = "harvest/home.html"
 
 
-class Reports(LoginRequiredMixin, TemplateView):
+class Reports(BaseTemplateView):
 	template_name = "harvest/reports.html"
 
 
@@ -32,7 +32,17 @@ class WeighingInput(LoginRequiredMixin, CreateView):
 	success_url = reverse_lazy('harvest:weighing_list')
 
 
-class WeighingListing(ListView):
+class WeighingEdit(WeighingInput, UpdateView):
+	form_class = forms.WeighingsForm
+
+
+class WeighingRemove(DeleteView):
+	model = models.Weighings
+	# template_name = "object_delete.html"
+	success_url = reverse_lazy('harvest:weighing_list')
+
+
+class WeighingListing(LoginRequiredMixin, ListView):
 	model = models.Weighings
 	ordering = '-report_date'
 
@@ -86,7 +96,21 @@ class SalesDocketInput(LoginRequiredMixin, CreateView):
 		return super().form_valid(form)
 
 
-class SalesDocketListing(ListView):
+class SalesDocketEdit(LoginRequiredMixin, UpdateView):
+	model = models.SalesDocket
+	form_class = forms.SalesDocketForm
+	template_name = 'object_form.html'
+	success_url = reverse_lazy('harvest:sales_list')
+
+
+class SalesDocketRemove(LoginRequiredMixin, DeleteView):
+	model = models.SalesDocket
+	# template_name = 'object_form.html'
+	success_url = reverse_lazy('harvest:sales_list')
+
+
+
+class SalesDocketListing(LoginRequiredMixin, ListView):
 	model = models.SalesDocket
 	ordering = '-date'
 

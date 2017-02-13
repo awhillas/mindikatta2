@@ -25,6 +25,7 @@
 	      <th><a href="?sort={% if sort == 'variety' %}-{% endif %}variety">variety</a></th>
 		  <th><a href="?sort={% if sort == 'from_silo' %}-{% endif %}from_silo">from</a></th>
 		  <th><a href="?sort={% if sort == 'to_silo' %}-{% endif %}to_silo">to</a></th>
+		  <th></th>
 	    </tr>
 	  </thead>
 	  <tbody>
@@ -40,6 +41,10 @@
 			<td>{{object.variety}}</td>
 			<td>{{object.from_silo}}</td>
 			<td>{{object.to_silo}}</td>
+			<td>
+				<a class="btn btn-primary" href="{% url 'harvest:weighing_edit' object.id %}">edit</a>
+				<a class="btn btn-warning" href="{% url 'harvest:weighing_delete' object.id %}">delete</a>
+			</td>
 		  </tr>
 		  {% endfor %}
 	  </tbody>

@@ -13,14 +13,14 @@ class CommonLayout(Layout):
 	def __init__(self, *args, **kwargs):
 		super(CommonLayout, self).__init__(
 			'weight',
-			
+			'variety',
 			InlineRadios('operation', css_class="btn-group"),
 			Div(
 				Div('from_silo', css_class='col-sm-6'),
 				Div('to_silo', css_class='col-sm-6'),
 				css_class="row"
 			),
-			'report_date', 'variety',
+			'report_date',
 			FormActions(
 				Submit('save', 'Save changes'),
 				Button('cancel', 'Cancel')

@@ -20,18 +20,22 @@ class SalesDocket(models.Model):
 	delivery_weight = models.IntegerField()
 	percent_moisture = models.DecimalField(max_digits=3, decimal_places=1)
 	net_payment = models.DecimalField(max_digits=8, decimal_places=2)
+	# premium_weight = models.IntegerField(default=0)
+	# commercial_weight = models.IntegerField(default=0)
+	# oil_weight = models.IntegerField(default=0)
 	
 	def __str__(self):
 		return "{} ({})".format(self.docket_number, self.date)
+	
 
 
 class Silo(models.Model):
 	name = models.CharField(max_length=10)
 	capacity = models.IntegerField()
-	export = models.BooleanField()
+	export = models.IntegerField(default=0)
 	
 	def __str__(self):
-		return "{} ({} kg)".format(self.name, intcomma(self.capacity))
+		return "{}".format(self.name)
 
 
 class Variety(models.Model):
@@ -53,7 +57,7 @@ class Weighings(models.Model):
 	operation = models.CharField(max_length=6, choices=OP_CHOICES, default='dehusk')
 	to_silo = models.ForeignKey(Silo, related_name='+')
 	from_silo = models.ForeignKey(Silo, related_name='+')
-	# silo_emptyed = models.BooleanField()
+	# silo_emptyed = models.IntegerField(default=0)
 	variety = models.ForeignKey(Variety)
 	weight = models.IntegerField()
 	report_date = models.DateTimeField(default=timezone.now)

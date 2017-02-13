@@ -27,6 +27,9 @@ urlpatterns = [
 	# Weighings
 
 	url(r'^weighing/$', views.WeighingInput.as_view(), name='weighing'),
+	url(r'^weighing/(?P<pk>[0-9]+)/$', views.WeighingEdit.as_view(), name='weighing_edit'),
+	url(r'^weighing/(?P<pk>[0-9]+)/delete$', views.WeighingRemove.as_view(), name='weighing_delete'),
+	
 	url(r'^weighings/$', views.WeighingListing.as_view(), name='weighing_list'),
 	url(r'^weighings/(?P<year>[0-9]{4})/$', views.WeighingListing.as_view(), name='weighing_list'),
 	url(r'^weighings/(?P<year>[0-9]{4})/(?P<operation>(dehusk|resort|sale))/$', views.WeighingListing.as_view(), name='weighing_list'),
@@ -35,6 +38,8 @@ urlpatterns = [
 	url(r'^weighings/(?P<year>[0-9]{4})/(?P<operation>(dehusk|resort|sale))/csv/$', views.WeighingListingCSV.as_view(), name='weighing_list_csv'),
 
 	url(r'^docket/$', views.SalesDocketInput.as_view(), name='sales'),
+	url(r'^docket/(?P<pk>[0-9]+)/$', views.SalesDocketEdit.as_view(), name='sale_edit'),
+	url(r'^docket/(?P<pk>[0-9]+)/delete$', views.SalesDocketRemove.as_view(), name='sale_delete'),
 	url(r'^sales/$', views.SalesDocketListing.as_view(), name='sales_list'),
 	url(r'^sales/(?P<year>[0-9]{4})/$', views.SalesDocketListing.as_view(), name='sales_list'),
 ]

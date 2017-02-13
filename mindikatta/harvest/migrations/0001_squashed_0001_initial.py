@@ -6,68 +6,94 @@ from django.db import migrations, models
 import django.db.models.deletion
 
 
+# def load_fixtures(apps, schema_editor):
+# 	from django.core.management import call_command
+# 	call_command("loaddata", "farm")
+# 	call_command("loaddata", "silo")
+# 	call_command("loaddata", "variety")
+
+
+def load_from_sql():
+	from config.settings import BASE_DIR
+	import os
+	sql = open(os.path.join(BASE_DIR,'mindikatta.sql'), 'r').read()
+	return sql
+	
+def update_indexes():
+	out = ''
+	# template = "SELECT setval(pg_get_serial_sequence('{0}', 'id'), coalesce(max(id),0) + 1, false) FROM {0};"
+	template = "SELECT setval(pg_get_serial_sequence('{0}', 'id'), max(id)) FROM {0}; "
+	for table in ['weighings', 'salesdocket', 'silo', 'variety']:
+		out += template.format('harvest_'+table)
+	# print(out)
+	return out
+
+
 class Migration(migrations.Migration):
 
-    replaces = [('harvest', '0001_initial')]
+	replaces = [('harvest', '0001_initial')]
 
-    initial = True
+	initial = True
 
-    dependencies = [
-    ]
+	dependencies = [
+	]
 
-    operations = [
-        migrations.CreateModel(
-            name='Farm',
-            fields=[
-                ('id', models.CharField(max_length=2, primary_key=True, serialize=False)),
-                ('name', models.CharField(max_length=15)),
-                ('address', models.CharField(max_length=255)),
-            ],
-        ),
-        migrations.CreateModel(
-            name='SalesDocket',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('docket_number', models.CharField(max_length=10)),
-                ('date', models.DateField()),
-                ('delivery_weight', models.IntegerField()),
-                ('percent_moisture', models.DecimalField(decimal_places=1, max_digits=3)),
-                ('premium_weight', models.IntegerField()),
-                ('commercial_weight', models.IntegerField()),
-                ('oil_weight', models.IntegerField()),
-                ('net_payment', models.DecimalField(decimal_places=2, max_digits=8)),
-            ],
-        ),
-        migrations.CreateModel(
-            name='Silo',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=10)),
-                ('capacity', models.IntegerField()),
-                ('export', models.BooleanField()),
-            ],
-        ),
-        migrations.CreateModel(
-            name='Variety',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=20)),
-                ('block', models.CharField(max_length=20)),
-                ('charting_colour', models.CharField(max_length=12)),
-                ('farm', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='harvest.Farm')),
-            ],
-        ),
-        migrations.CreateModel(
-            name='Weighings',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('operation', models.CharField(max_length=6)),
-                ('silo_emptyed', models.BooleanField()),
-                ('weight', models.IntegerField()),
-                ('report_date', models.DateTimeField()),
-                ('from_silo', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='+', to='harvest.Silo')),
-                ('to_silo', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='+', to='harvest.Silo')),
-                ('variety', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='harvest.Variety')),
-            ],
-        ),
-    ]
+	operations = [
+		migrations.CreateModel(
+			name='Farm',
+			fields=[
+				('id', models.CharField(max_length=2, primary_key=True, serialize=False)),
+				('name', models.CharField(max_length=15)),
+				('address', models.CharField(max_length=255)),
+			],
+		),
+		migrations.CreateModel(
+			name='SalesDocket',
+			fields=[
+				('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+				('docket_number', models.CharField(max_length=10)),
+				('date', models.DateField()),
+				('delivery_weight', models.IntegerField()),
+				('percent_moisture', models.DecimalField(decimal_places=1, max_digits=3)),
+				('premium_weight', models.IntegerField()),
+				('commercial_weight', models.IntegerField()),
+				('oil_weight', models.IntegerField()),
+				('net_payment', models.DecimalField(decimal_places=2, max_digits=8)),
+			],
+		),
+		migrations.CreateModel(
+			name='Silo',
+			fields=[
+				('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+				('name', models.CharField(max_length=10)),
+				('capacity', models.IntegerField()),
+				('export', models.IntegerField()),
+			],
+		),
+		migrations.CreateModel(
+			name='Variety',
+			fields=[
+				('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+				('name', models.CharField(max_length=20)),
+				('block', models.CharField(max_length=20)),
+				('charting_colour', models.CharField(max_length=12)),
+				('farm', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='harvest.Farm')),
+			],
+		),
+		migrations.CreateModel(
+			name='Weighings',
+			fields=[
+				('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+				('operation', models.CharField(max_length=6)),
+				('silo_emptyed', models.IntegerField()),
+				('weight', models.IntegerField()),
+				('report_date', models.DateTimeField()),
+				('from_silo', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='+', to='harvest.Silo')),
+				('to_silo', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='+', to='harvest.Silo')),
+				('variety', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='harvest.Variety')),
+			],
+		),
+		# migrations.RunPython(load_fixtures),
+		migrations.RunSQL(load_from_sql()),
+		migrations.RunSQL(update_indexes()),
+	]

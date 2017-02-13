@@ -23,6 +23,7 @@
 			<th><a href="?sort={% if sort == 'delivery_weight' %}-{% endif %}delivery_weight">delivery weight</a></th>
 			<th><a href="?sort={% if sort == 'percent_moisture' %}-{% endif %}percent_moisture">moisture %</a></th>
 			<th><a href="?sort={% if sort == 'net_payment' %}-{% endif %}net_payment">net payment $</a></th>
+			<th></th>
 		</tr>
 	  </thead>
 	  <tbody>
@@ -33,6 +34,10 @@
 				<td class="text-right">{{object.delivery_weight | intcomma}}</td>
 				<td class="text-right">{{object.percent_moisture}}</td>
 				<td class="text-right">{{object.net_payment | intcomma}}</td>
+				<td>
+					<a class="btn btn-primary" href="{% url 'harvest:sale_edit' object.id %}">edit</a>
+					<a class="btn btn-warning" href="{% url 'harvest:sale_delete' object.id %}">delete</a>
+				</td>
 			</tr>
 		{% endfor %}
 	  </tbody>
