@@ -36,5 +36,5 @@ db-restore:
 db-push:
 	# Local backup to heroku. DESTORYS THE LIVE VERSION!!
 	heroku pg:reset --app mindikatta
-	heroku run python manage.py migrate
+	heroku run python manage.py migrate --app mindikatta
 	heroku pg:push mindikatta_local DATABASE --app mindikatta
