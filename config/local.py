@@ -2,6 +2,8 @@ from config.settings import *
 import dj_database_url
 
 
+SITE_TITLE = 'Mindikatta DEV'
+
 DATABASES = {
 	# 'default': {
 	# 	'ENGINE': 'django.db.backends.sqlite3',

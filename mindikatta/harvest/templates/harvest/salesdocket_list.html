@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% load humanize %}
 
+{% block title %}{{current_year}} Sales Dockets listing, {% endblock %}
+
 {% block content %}
 	<h1>
 		Sales Dockets
@@ -15,6 +17,15 @@
 			{% endif %}
 		{% endfor %}
 	</ul>
+	
+
+	<div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Year toolbar">
+		<div class="btn-group" role="group" aria-label="Operations">
+			<a class="btn btn-success" href="{% url 'harvest:weighing' %}">Add Batch Weighing</a>
+		</div>
+	</div>
+	
+	
 	<table class="table table-responsive table-striped">
 	  <thead>
 		<tr>
@@ -35,11 +46,21 @@
 				<td class="text-right">{{object.percent_moisture}}</td>
 				<td class="text-right">{{object.net_payment | intcomma}}</td>
 				<td>
-					<a class="btn btn-primary" href="{% url 'harvest:sale_edit' object.id %}">edit</a>
-					<a class="btn btn-warning" href="{% url 'harvest:sale_delete' object.id %}">delete</a>
+					<div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+						<a class="btn btn-warning" href="{% url 'harvest:sale_edit' object.id %}">edit</a>
+						<a class="btn btn-danger" href="{% url 'harvest:sale_delete' object.id %}">delete</a>
+					</div>
 				</td>
 			</tr>
 		{% endfor %}
 	  </tbody>
 	<table>
+		
+
+	<div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Year toolbar">
+		<div class="btn-group" role="group" aria-label="Operations">
+			<a class="btn btn-success" href="{% url 'harvest:weighing' %}">Add Batch Weighing</a>
+		</div>
+	</div>
+		
 {% endblock %}

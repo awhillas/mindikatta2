@@ -10,6 +10,7 @@ django-crispy-forms==1.6.1
 django-extensions==1.7.5
 django-html5==1.0.0
 django-nose==1.4.4
+django-settings-export==1.2.1
 django==1.10.5
 first==2.0.1              # via pip-tools
 gunicorn==19.6.0

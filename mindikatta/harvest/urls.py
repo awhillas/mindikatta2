@@ -37,6 +37,8 @@ urlpatterns = [
 	url(r'^weighings/(?P<year>[0-9]{4})/csv/$', views.WeighingListingCSV.as_view(), name='weighing_list_csv'),
 	url(r'^weighings/(?P<year>[0-9]{4})/(?P<operation>(dehusk|resort|sale))/csv/$', views.WeighingListingCSV.as_view(), name='weighing_list_csv'),
 
+	# Sales dockets
+
 	url(r'^docket/$', views.SalesDocketInput.as_view(), name='sales'),
 	url(r'^docket/(?P<pk>[0-9]+)/$', views.SalesDocketEdit.as_view(), name='sale_edit'),
 	url(r'^docket/(?P<pk>[0-9]+)/delete$', views.SalesDocketRemove.as_view(), name='sale_delete'),

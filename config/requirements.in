@@ -7,7 +7,11 @@ django-crispy-forms
 django-html5
 gunicorn
 whitenoise  # serving static files in production coz Django doesn't
+django-settings-export
 
+# Data reporting
+
+pandas
 
 # Debugging
 

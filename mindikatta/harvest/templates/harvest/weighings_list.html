@@ -1,21 +1,35 @@
 {% extends "base.html" %}
 {% load humanize %}
 
+{% block title %}{{current_year}} Weighings listing, {% endblock %}
+
 {% block content %}
 	<h1>
 		Weighings
 		{% if current_year > 0 %}<small class="text-muted">{{current_year}} {{current_op}}</small>{% endif %}
-		<h6><a class="text-muted " href="{% url 'harvest:weighing_list_csv' year=current_year %}">CSV</a></h6>
 	</h1>
 	<ul class="list-inline">
+		<li class="list-inline-item">Years:</li>
 		{% for year in avaiable_years %}
 			{% if current_year == year %}
-				<li class="list-inline-item">{{year}}</li>
+				<li class="list-inline-item">{{year }}</li>
 			{% else %}
 				<li class="list-inline-item"><a class="" href="{% url 'harvest:weighing_list' year=year %}">{{year}}</a></li>
 			{% endif %}
 		{% endfor %}
 	</ul>
+
+
+	<div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Year toolbar">
+		<div class="btn-group" role="group" aria-label="Operations">
+			<a class="btn btn-success" href="{% url 'harvest:weighing' %}">Add Batch Weighing</a>
+		</div>
+		<div class="btn-group" role="group" aria-label="Download">
+			<a class="btn btn-secondary" href="{% url 'harvest:weighing_list_csv' year=current_year %}" title="Download the years data for Excel (.CSV)">Download Year's Data</a>
+		</div>
+	</div>
+	
+	
 	<table class="table table-responsive table-striped">
 	  <thead>
 	    <tr>
@@ -42,11 +56,18 @@
 			<td>{{object.from_silo}}</td>
 			<td>{{object.to_silo}}</td>
 			<td>
-				<a class="btn btn-primary" href="{% url 'harvest:weighing_edit' object.id %}">edit</a>
-				<a class="btn btn-warning" href="{% url 'harvest:weighing_delete' object.id %}">delete</a>
+				<div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+					<a class="btn btn-warning" href="{% url 'harvest:weighing_edit' object.id %}">edit</a>
+					<a class="btn btn-danger" href="{% url 'harvest:weighing_delete' object.id %}">delete</a>
+				</div>
 			</td>
 		  </tr>
 		  {% endfor %}
 	  </tbody>
 	<table>
+	
+	<div class="btn-group" role="group" aria-label="Operations">
+		<a class="btn btn-success" href="{% url 'harvest:weighing' %}">Add Batch Weighing</a>
+	</div>
+
 {% endblock %}

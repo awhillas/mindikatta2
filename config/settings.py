@@ -43,6 +43,8 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 ALLOWED_HOSTS = []
 
+SITE_TITLE = 'Mindikatta'
+
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
@@ -157,3 +159,15 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # The weight to mulitipuly the counter by to get the weight of a counter weighing
 HARVEST_WEIGHT_PER_COUNT = 25
+
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# django-settings-export
+
+TEMPLATES[0]['OPTIONS']['context_processors'] += ['django_settings_export.settings_export']
+
+# Make variables available in the templates
+SETTINGS_EXPORT = [
+	'DEBUG',
+	'SITE_TITLE'
+]
