@@ -21,6 +21,10 @@ me:
 logs:
 	heroku logs --app mindikatta
 
+db-start:
+	# Start local Postgres DB (we're using sqlite for now)
+	pg_ctl -D /usr/local/var/postgres9.5 -l ~/postgres9.5.log start
+
 db-refresh:
 	dropdb mindikatta_local
 	createdb mindikatta_local
@@ -28,10 +32,12 @@ db-refresh:
 	sed 's/`//g' mindikatta.sql | psql mindikatta_local
 
 db-dump:
-	pg_dump mindikatta_local | gzip > mindikatta_local.dump.gz
+	pg_dump mindikatta_local | gzip > ./data/mindikatta_local.dump.gz
 
 db-restore:
-	gunzip -c mindikatta_local.dump.gz | psql mindikatta_local
+	dropdb mindikatta_local
+	createdb mindikatta_local
+	gunzip -c ./data/mindikatta_local.dump.gz | psql mindikatta_local
 
 db-push:
 	# Local backup to heroku. DESTORYS THE LIVE VERSION!!

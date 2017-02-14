@@ -16,7 +16,7 @@ import django.db.models.deletion
 def load_from_sql():
 	from config.settings import BASE_DIR
 	import os
-	sql = open(os.path.join(BASE_DIR,'mindikatta.sql'), 'r').read()
+	sql = open(os.path.join(BASE_DIR,'data', 'mindikatta.sql'), 'r').read()
 	return sql
 	
 def update_indexes():

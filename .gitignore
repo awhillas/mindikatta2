@@ -15,7 +15,9 @@ tests/report/
 
 .env
 
+*.gz
 *.sqlite3
+*.log
 
 *.DS_Store
 

@@ -1,6 +1,9 @@
 from pprint import pprint
 import datetime
 import csv
+import pandas as pd
+import numpy as np
+import calendar
 
 from django.http import HttpResponse
 from django.shortcuts import render
@@ -13,13 +16,43 @@ from django.forms.models import model_to_dict
 from . import models, forms
 
 
+def qs_to_df(qs):
+	""" QuerySet to DataFrame """
+	Model = qs.model
+	np_array = np.core.records.fromrecords(qs.values_list(), names=[f.name for f in Model._meta.fields])
+	return pd.DataFrame(np_array)
+
+
 class BaseTemplateView(LoginRequiredMixin, TemplateView):
 	login_url = reverse_lazy('login')
 
 
 class Home(BaseTemplateView):
 	template_name = "harvest/home.html"
-
+	
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+		
+		# Get the last year we have data for
+		
+		context['latest_year'] = latest_year = int(models.Weighings.objects.all().order_by('report_date').last().report_date.year)
+		
+		# build a query of just that year
+		
+		qs = models.Weighings.objects.filter(report_date__year=latest_year)
+		df = qs_to_df(qs)
+		
+		# Totals grouped by operation and month
+		
+		context['summary'] = df.groupby([
+			'operation',
+			df['report_date'].map(lambda x: x.month)
+		]).sum()['weight'].unstack().to_dict()
+		context['months'] = context['summary'].keys()
+		context['month_names'] = [calendar.month_name[i] for i in context['months']]
+		context['operations'] = dict(models.Weighings.OP_CHOICES)
+		
+		return context
 
 class Reports(BaseTemplateView):
 	template_name = "harvest/reports.html"
@@ -36,7 +69,7 @@ class WeighingEdit(WeighingInput, UpdateView):
 	form_class = forms.WeighingsForm
 
 
-class WeighingRemove(DeleteView):
+class WeighingRemove(LoginRequiredMixin, DeleteView):
 	model = models.Weighings
 	# template_name = "object_delete.html"
 	success_url = reverse_lazy('harvest:weighing_list')
