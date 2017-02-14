@@ -24,12 +24,14 @@
 		<div class="btn-group" role="group" aria-label="Operations">
 			<a class="btn btn-success" href="{% url 'harvest:weighing' %}">Add Batch Weighing</a>
 		</div>
-		<div class="btn-group" role="group" aria-label="Download">
-			<a class="btn btn-secondary" href="{% url 'harvest:weighing_list_csv' year=current_year %}" title="Download the years data for Excel (.CSV)">Download Year's Data</a>
-		</div>
+		{% if object_list %}
+			<div class="btn-group" role="group" aria-label="Download">
+				<a class="btn btn-secondary" href="{% url 'harvest:weighing_list_csv' year=current_year %}" title="Download the years data for Excel (.CSV)">Download {{current_year}}</a>
+			</div>
+		{% endif %}
 	</div>
 	
-	
+	{% if object_list %}
 	<table class="table table-responsive table-striped">
 	  <thead>
 	    <tr>
@@ -69,5 +71,6 @@
 	<div class="btn-group" role="group" aria-label="Operations">
 		<a class="btn btn-success" href="{% url 'harvest:weighing' %}">Add Batch Weighing</a>
 	</div>
+	{% endif %}
 
 {% endblock %}
