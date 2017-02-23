@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block js %}
+	<script src="{% static "js/xml_file_upload.js" %}" charset="utf-8"></script>
+{% endblock %}
+
+{% block content %}
+	
+	<h1>Upload Consignment</h1>
+	
+	<form id="UPLOAD_FORM" action="{% url 'harvest:process_consignment' %}" method="post">
+		<div class="form-group">
+			<input class="form-control-file" type="file" id="files" name="file" accept="text/xml,application/xml" />
+			<div id="PROGRESS_BAR"><div class="percent">0%</div></div>
+			<button id= "CANCEL_BTN" onclick="abortRead();">Cancel</button>
+		</div>
+	</form>
+	
+{% endblock %}

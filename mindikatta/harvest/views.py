@@ -5,9 +5,10 @@ import pandas as pd
 import numpy as np
 import calendar
 
-from django.http import HttpResponse
+import inflection
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
-from django.views.generic import TemplateView
+from django.views.generic import View, TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
@@ -21,6 +22,68 @@ def qs_to_df(qs):
 	Model = qs.model
 	np_array = np.core.records.fromrecords(qs.values_list(), names=[f.name for f in Model._meta.fields])
 	return pd.DataFrame(np_array)
+
+
+def parse_consignment_xml(raw_xml):
+	import xml.etree.ElementTree as et
+	
+	def clean(text):
+		translate = {
+			# 'PKR': 'Premium Kernel Recovery'
+			# 'CKR': 'Commercial Kernel Recovery'
+			# 'RKR': 'Reject Kernel Recovery'
+			# 'KR': 'Kernel Recovery'
+			'Yr': 'Year',
+			'No.': 'number',
+			'10%': '_10pct',
+			'3.5%': '_35pct',
+			'%MC': '_pct_moisture',
+			'%': '_pct',
+			'Rej.': 'Reject ',
+			'Prem.': 'Premium ',
+			'Com.': 'Commercial ',
+			'Tot.': 'Total',
+			'/Kg': '_per_kg',
+			# 'YTD': 'year to Date'
+		}
+		for old, new in translate.items():
+			text = text.replace(old, new)
+		
+		text = text.strip()
+		
+		text = text.translate(str.maketrans({' ':'_','%':'', '.':'', '(':'', ')':'', '"':'', '=':''}))
+		text = text.replace('__', '_')
+		return inflection.underscore(text)
+	
+	data = {}
+	root = et.fromstring(raw_xml)
+	
+	data['consignment_number'] = root.find('Load-ID.').find('Consignment-No.').text
+	
+	dd = root.find('Delivery_Details')
+	for data_point in ['DeliveryDate', 'ReportDateTime']:
+		db_name = inflection.underscore(data_point)  # convert to snake_case
+		data[db_name] = dd.find(data_point)
+	
+	skip_list = ['QR-Date', 'Dehusking-Sorting Charge/Kg']
+	for test in root.find('DeliveryTestResults').iter('Test'):
+		name = test.find('TestName').text
+		value = test.find('TestResult').text.strip()
+		
+		note_el = test.find('TestNote')
+		note = name + ', ' + note_el.text.strip() if not note_el is None else name
+		note = note.replace('"', '')
+		
+		if name in skip_list:
+			continue
+		clean_name = clean(name)
+		data[clean_name] = float(value)
+		# print(name, value)
+		# print(note_el.text) if not note_el is None else print(note_el)
+		print('{} = FloatField(help_text="{}", blank=True, default=0.0)'.format(clean_name, note))
+	
+	pprint(data)
+	return data
 
 
 class BaseTemplateView(LoginRequiredMixin, TemplateView):
@@ -142,7 +205,6 @@ class SalesDocketRemove(LoginRequiredMixin, DeleteView):
 	success_url = reverse_lazy('harvest:sales_list')
 
 
-
 class SalesDocketListing(LoginRequiredMixin, ListView):
 	model = models.SalesDocket
 	ordering = '-date'
@@ -210,3 +272,12 @@ class CSVResponseMixin(object):
 class WeighingListingCSV(CSVResponseMixin, WeighingListing):
 	def render_to_response(self, context, **response_kwargs):
 		return self.render_to_csv_response(context, **response_kwargs)
+	
+
+class ProcessConsignment(LoginRequiredMixin, TemplateView):
+	template_name = 'harvest/upload_consignment.html'
+	
+	def post(self, request, *args, **kwargs):
+		# process the XML
+		print(request.POST)
+		return JsonResponse({ 'result': 'ok'})

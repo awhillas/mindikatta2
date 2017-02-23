@@ -13,7 +13,7 @@ class CommonLayout(Layout):
 	def __init__(self, *args, **kwargs):
 		super(CommonLayout, self).__init__(
 			'weight',
-			'variety',
+			'block',
 			InlineRadios('operation', css_class="btn-group"),
 			Div(
 				Div('from_silo', css_class='col-sm-6'),
@@ -22,7 +22,7 @@ class CommonLayout(Layout):
 			),
 			'report_date',
 			FormActions(
-				Submit('save', 'Save changes'),
+				Submit('save', 'Save'),
 				Button('cancel', 'Cancel')
 			)
 		)
@@ -39,12 +39,12 @@ class WeighingsForm(forms.ModelForm):
 	
 	class Meta:
 		model = Weighings
-		fields = ['operation', 'to_silo', 'from_silo', 'variety', 'weight', 'report_date']
+		fields = ['operation', 'to_silo', 'from_silo', 'block', 'weight', 'report_date']
 		widgets = {
 			'report_date': html5.DateInput(),
 			# 'from_silo': widgets.RadioSelect(),
 			# 'to_silo': widgets.RadioSelect(),
-			# 'variety': widgets.RadioSelect(),
+			# 'block': widgets.RadioSelect(),
 		}
 
 	def clean_weight(self):

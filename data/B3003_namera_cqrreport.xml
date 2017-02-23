@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Macadamia Processor Delivery Results XML  -->
+<NIS_Delivery_and_Consignment_Quality_Report>
+  <Load-ID.>
+    <Consignment-No.>B3003</Consignment-No.>
+    <Del.Docket>B3003</Del.Docket>
+    <Load-ID_Other_Ref>Batch:</Load-ID_Other_Ref>
+  </Load-ID.>
+  <Delivery_Details>
+    <DeliveryDate>2016-09-07T00:00:00</DeliveryDate>
+    <ReportDateTime>2016-09-15T15:39:54</ReportDateTime>
+    <OtherDeliveryInfo>RptGrp:,Variety:I,Del.Docket#:4415</OtherDeliveryInfo>
+  </Delivery_Details>
+  <Processor>
+    <ProcessorName>Macadamia Processing Co. LTD.</ProcessorName>
+    <ProcessorABN>93 002 607 972</ProcessorABN>
+    <ProcessorOtherInfo>MaterialDesc :NIS</ProcessorOtherInfo>
+  </Processor>
+  <Grower>
+    <GrowerName>Namera Pty Ltd ++++</GrowerName>
+    <GrowerABN>26787123857</GrowerABN>
+    <Grower_Address1>326 Rosebank Road</Grower_Address1>
+    <Grower_Address2>Rosebank</Grower_Address2>
+    <Grower_Address3>, NSW 2480</Grower_Address3>
+    <Grower_Payment_Address1>
+    </Grower_Payment_Address1>
+    <Grower_Payment_Address2>
+    </Grower_Payment_Address2>
+    <Grower_Payment_Address3>
+    </Grower_Payment_Address3>
+    <GrowerOtherInfo>
+    </GrowerOtherInfo>
+  </Grower>
+  <Payment_Details>
+  </Payment_Details>
+  <OtherInfo1>YTD NIS(t): 206.9 , PKR%: 26.6 , CKR%: 6.1 , RKR%: 2.5</OtherInfo1>
+  <OtherInfo2>2015 NIS(t): 232.5 , PKR%: 26.6 , CKR%: 6.4 , RKR%: 2.8</OtherInfo2>
+  <OtherInfo3>2014 NIS(t): 214.7 , PKR%: 26.3 , CKR%: 7.4 , RKR%: 3.3</OtherInfo3>
+  <OtherInfo4>2013 NIS(t): 163.7 , PKR%: 24.8 , CKR%: 6.0 , RKR%: 3.1</OtherInfo4>
+  <OtherInfo5>MPC YTD PKR%: 28.4 , CKR%: 4.7 , RKR%: 3.2</OtherInfo5>
+  <OtherInfo6>
+  </OtherInfo6>
+  <OtherInfo7>
+  </OtherInfo7>
+  <OtherInfo8>
+  </OtherInfo8>
+  <OtherInfo9>
+  </OtherInfo9>
+  <DeliveryTestResults>
+    <Test>
+      <TestName>QR-Date</TestName>
+      <TestResult>20160915</TestResult>
+      <TestNote>Report Date (YYYYMMDD)</TestNote>
+    </Test>
+    <Test>
+      <TestName>KG-Weight_Received</TestName>
+      <TestResult>             3020.0</TestResult>
+      <TestNote>
+      </TestNote>
+    </Test>
+    <Test>
+      <TestName>MoistureContent-pct</TestName>
+      <TestResult>              15.90</TestResult>
+      <TestNote>
+      </TestNote>
+    </Test>
+    <Test>
+      <TestName>KG-Weight10%M.C.</TestName>
+      <TestResult>            2822.00</TestResult>
+      <TestNote>
+      </TestNote>
+    </Test>
+    <Test>
+      <TestName>Foreign_matter%</TestName>
+      <TestResult>0.00</TestResult>
+      <TestNote>
+      </TestNote>
+    </Test>
+    <Test>
+      <TestName>Premium Kernel Recovery %</TestName>
+      <TestResult>              25.00</TestResult>
+      <TestNote>
+      </TestNote>
+    </Test>
+    <Test>
+      <TestName>Total Commercial KR%</TestName>
+      <TestResult>              10.40</TestResult>
+      <TestNote>
+      </TestNote>
+    </Test>
+    <Test>
+      <TestName>Light Discoloration %</TestName>
+      <TestResult>               2.80</TestResult>
+    </Test>
+    <Test>
+      <TestName>Light Germination%</TestName>
+      <TestResult>               0.80</TestResult>
+    </Test>
+    <Test>
+      <TestName>Light Immaturity KR%</TestName>
+      <TestResult>               6.80</TestResult>
+    </Test>
+    <Test>
+      <TestName>Reject Penalty Cost AUD</TestName>
+      <TestResult>              0.000</TestResult>
+    </Test>
+    <Test>
+      <TestName>Total Reject%</TestName>
+      <TestResult>               2.80</TestResult>
+      <TestNote>Reject Kernel Recovery</TestNote>
+    </Test>
+    <Test>
+      <TestName>Heavy Discoloration%</TestName>
+      <TestResult>               0.20</TestResult>
+      <TestNote>Reject Kernel Recovery</TestNote>
+    </Test>
+    <Test>
+      <TestName>Heavy Germination %</TestName>
+      <TestResult>               0.90</TestResult>
+      <TestNote>Reject Kernel Recovery</TestNote>
+    </Test>
+    <Test>
+      <TestName>Heavy Immaturity%</TestName>
+      <TestResult>               0.70</TestResult>
+      <TestNote>Reject Kernel Recovery</TestNote>
+    </Test>
+    <Test>
+      <TestName>Insect Damage%</TestName>
+      <TestResult>               0.70</TestResult>
+      <TestNote>Reject Kernel Recovery</TestNote>
+    </Test>
+    <Test>
+      <TestName>Internal Discolouration%</TestName>
+      <TestResult>               0.20</TestResult>
+      <TestNote>Reject Kernel Recovery</TestNote>
+    </Test>
+    <Test>
+      <TestName>Mould Units%</TestName>
+      <TestResult>               0.10</TestResult>
+      <TestNote>Reject Kernel Recovery</TestNote>
+    </Test>
+    <Test>
+      <TestName>Total Kernel Recovery%</TestName>
+      <TestResult>              38.20</TestResult>
+    </Test>
+    <Test>
+      <TestName>Shell Units%</TestName>
+      <TestResult>              61.80</TestResult>
+    </Test>
+    <Test>
+      <TestName>Total units"=%"</TestName>
+      <TestResult>             100.00</TestResult>
+    </Test>
+    <Test>
+      <TestName>NCV Premium NIS /Kg NIS</TestName>
+      <TestResult>              3.939</TestResult>
+      <TestNote>Notional Consignment Value</TestNote>
+    </Test>
+    <Test>
+      <TestName>NCV Commercial NIS /Kg NIS</TestName>
+      <TestResult>              1.639</TestResult>
+      <TestNote>Notional Consignment Value</TestNote>
+    </Test>
+    <Test>
+      <TestName>NCV Whole Kernel %</TestName>
+      <TestResult>               0.00</TestResult>
+      <TestNote>Notional Consignment Value</TestNote>
+    </Test>
+    <Test>
+      <TestName>NCV Whole Kernel Adjustmnt %</TestName>
+      <TestResult>             100.00</TestResult>
+      <TestNote>Notional Consignment Value</TestNote>
+    </Test>
+    <Test>
+      <TestName>NCV Reject adjustment /Kg NIS</TestName>
+      <TestResult>              0.000</TestResult>
+      <TestNote>Notional Consignment Value</TestNote>
+    </Test>
+    <Test>
+      <TestName>NCV Freight Subsidy/Kg</TestName>
+      <TestResult>              0.025</TestResult>
+      <TestNote>Notional Consignment Value</TestNote>
+    </Test>
+    <Test>
+      <TestName>Dehusking-Sorting Charge/Kg</TestName>
+      <TestResult>
+      </TestResult>
+      <TestNote>Notional Consignment Value</TestNote>
+    </Test>
+    <Test>
+      <TestName>NCV Total /Kg NIS</TestName>
+      <TestResult>              5.603</TestResult>
+      <TestNote>Notional Consignment Value</TestNote>
+    </Test>
+    <Test>
+      <TestName>NCV Total Value</TestName>
+      <TestResult>           15811.67</TestResult>
+      <TestNote>Notional Consignment Value</TestNote>
+    </Test>
+    <Test>
+      <TestName>MIC3.5%MC Prem.Kernel %</TestName>
+      <TestResult>              25.00</TestResult>
+      <TestNote>Macadamia Industry Calculation</TestNote>
+    </Test>
+    <Test>
+      <TestName>MIC3.5%MC Prem.Kernel Kg</TestName>
+      <TestResult>             657.98</TestResult>
+      <TestNote>Macadamia Industry Calculation</TestNote>
+    </Test>
+    <Test>
+      <TestName>MIC3.5%MC Com.Kernel %</TestName>
+      <TestResult>              10.40</TestResult>
+      <TestNote>Macadamia Industry Calculation</TestNote>
+    </Test>
+    <Test>
+      <TestName>MIC3.5%MC Com.Kernel Kg</TestName>
+      <TestResult>             273.72</TestResult>
+      <TestNote>Macadamia Industry Calculation</TestNote>
+    </Test>
+    <Test>
+      <TestName>MIC3.5%MC Rej.Kernel %</TestName>
+      <TestResult>               2.80</TestResult>
+      <TestNote>Macadamia Industry Calculation</TestNote>
+    </Test>
+    <Test>
+      <TestName>MIC3.5%MC Rej.Kernel Kg</TestName>
+      <TestResult>              73.69</TestResult>
+      <TestNote>Macadamia Industry Calculation</TestNote>
+    </Test>
+    <Test>
+      <TestName>MIC3.5%MC Tot.Kernel %</TestName>
+      <TestResult>              35.40</TestResult>
+      <TestNote>Macadamia Industry Calculation</TestNote>
+    </Test>
+    <Test>
+      <TestName>Total% Leviable Kernel</TestName>
+      <TestResult>              35.40</TestResult>
+      <TestNote>Macadamia Industry Calculation</TestNote>
+    </Test>
+    <Test>
+      <TestName>MIC3.5%MC Total Kernel Kg</TestName>
+      <TestResult>             931.70</TestResult>
+      <TestNote>Macadamia Industry Calculation</TestNote>
+    </Test>
+    <Test>
+      <TestName>MIC3.5%MC Levy /Kg</TestName>
+      <TestResult>             0.2521</TestResult>
+      <TestNote>Macadamia Industry Calculation</TestNote>
+    </Test>
+    <Test>
+      <TestName>MIC3.5%MC Total Levy</TestName>
+      <TestResult>             234.88</TestResult>
+      <TestNote>Macadamia Industry Calculation</TestNote>
+    </Test>
+    <Test>
+      <TestName>First Payment Value</TestName>
+      <TestResult>            6208.40</TestResult>
+      <TestNote>Payment Particulars</TestNote>
+    </Test>
+    <Test>
+      <TestName>Compulsory Levy</TestName>
+      <TestResult>             234.88</TestResult>
+      <TestNote>Payment Particulars</TestNote>
+    </Test>
+    <Test>
+      <TestName>Laboratory Fee</TestName>
+      <TestResult>0.00</TestResult>
+      <TestNote>Payment Particulars</TestNote>
+    </Test>
+    <Test>
+      <TestName>Payment due</TestName>
+      <TestResult>            5973.52</TestResult>
+      <TestNote>Payment Particulars</TestNote>
+    </Test>
+    <Test>
+      <TestName>NIS(t) YTD</TestName>
+      <TestResult>              206.9</TestResult>
+      <TestNote>YTD &amp; Last 3 Years data</TestNote>
+    </Test>
+    <Test>
+      <TestName>PKR% YTD</TestName>
+      <TestResult>               26.6</TestResult>
+      <TestNote>YTD &amp; Last 3 Years data</TestNote>
+    </Test>
+    <Test>
+      <TestName>CKR% YTD</TestName>
+      <TestResult>                6.1</TestResult>
+      <TestNote>YTD &amp; Last 3 Years data</TestNote>
+    </Test>
+    <Test>
+      <TestName>RKR% YTD</TestName>
+      <TestResult>                2.5</TestResult>
+      <TestNote>YTD &amp; Last 3 Years data</TestNote>
+    </Test>
+    <Test>
+      <TestName>WK% YTD</TestName>
+      <TestResult>                0.0</TestResult>
+      <TestNote>YTD &amp; Last 3 Years data</TestNote>
+    </Test>
+    <Test>
+      <TestName>NIS(t) 1 Yr Prev</TestName>
+      <TestResult>              232.5</TestResult>
+      <TestNote>YTD &amp; Last 3 Years data</TestNote>
+    </Test>
+    <Test>
+      <TestName>PKR% 1 Yr Prev</TestName>
+      <TestResult>               26.6</TestResult>
+      <TestNote>YTD &amp; Last 3 Years data</TestNote>
+    </Test>
+    <Test>
+      <TestName>CKR% 1 Yr Prev</TestName>
+      <TestResult>                6.4</TestResult>
+      <TestNote>YTD &amp; Last 3 Years data</TestNote>
+    </Test>
+    <Test>
+      <TestName>RKR% 1 Yr Prev</TestName>
+      <TestResult>                2.8</TestResult>
+      <TestNote>YTD &amp; Last 3 Years data</TestNote>
+    </Test>
+    <Test>
+      <TestName>WK% 1 Yr Prev</TestName>
+      <TestResult>                0.0</TestResult>
+      <TestNote>YTD &amp; Last 3 Years data</TestNote>
+    </Test>
+    <Test>
+      <TestName>NIS(t) 2 Yr Prev</TestName>
+      <TestResult>              214.7</TestResult>
+      <TestNote>YTD &amp; Last 3 Years data</TestNote>
+    </Test>
+    <Test>
+      <TestName>PKR% 2 Yr Prev</TestName>
+      <TestResult>               26.3</TestResult>
+      <TestNote>YTD &amp; Last 3 Years data</TestNote>
+    </Test>
+    <Test>
+      <TestName>CKR% 2 Yr Prev</TestName>
+      <TestResult>                7.4</TestResult>
+      <TestNote>YTD &amp; Last 3 Years data</TestNote>
+    </Test>
+    <Test>
+      <TestName>RKR% 2 Yr Prev</TestName>
+      <TestResult>                3.3</TestResult>
+      <TestNote>YTD &amp; Last 3 Years data</TestNote>
+    </Test>
+    <Test>
+      <TestName>WK% 2 Yr Prev</TestName>
+      <TestResult>               58.5</TestResult>
+      <TestNote>YTD &amp; Last 3 Years data</TestNote>
+    </Test>
+    <Test>
+      <TestName>NIS(t) 3 Yr Prev</TestName>
+      <TestResult>              163.7</TestResult>
+      <TestNote>YTD &amp; Last 3 Years data</TestNote>
+    </Test>
+    <Test>
+      <TestName>PKR% 3 Yr Prev</TestName>
+      <TestResult>               24.8</TestResult>
+      <TestNote>YTD &amp; Last 3 Years data</TestNote>
+    </Test>
+    <Test>
+      <TestName>CKR% 3 Yr Prev</TestName>
+      <TestResult>                6.0</TestResult>
+      <TestNote>YTD &amp; Last 3 Years data</TestNote>
+    </Test>
+    <Test>
+      <TestName>RKR% 3 Yr Prev</TestName>
+      <TestResult>                3.1</TestResult>
+      <TestNote>YTD &amp; Last 3 Years data</TestNote>
+    </Test>
+    <Test>
+      <TestName>WK% 3 Yr Prev</TestName>
+      <TestResult>               55.1</TestResult>
+      <TestNote>YTD &amp; Last 3 Years data</TestNote>
+    </Test>
+  </DeliveryTestResults>
+</NIS_Delivery_and_Consignment_Quality_Report>

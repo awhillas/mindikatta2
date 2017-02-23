@@ -1,10 +1,13 @@
 from pprint import pprint
+import os
 
 from django.test import TestCase
 from django.core.urlresolvers import reverse
 from django.contrib.auth import get_user_model
+from django.conf import settings
 
 from . import forms
+from . import views
 
 
 class HarvestViewsTest(TestCase):
@@ -36,7 +39,7 @@ class HarvestViewsTest(TestCase):
 
 
 class HarvestFormTests(TestCase):
-	fixtures = ["mindikatta/harvest/fixtures/"+f for f in ["farm.json", "silo.json", "variety.json"]]
+	# fixtures = ["mindikatta/harvest/fixtures/"+f for f in ["farm.json", "silo.json", "block.json"]]
 
 	def test_WeighingsForm(self):
 		""" WeighingsForm with valid data """
@@ -44,7 +47,7 @@ class HarvestFormTests(TestCase):
 			'operation': 'dehusk',
 			'to_silo': 1,
 			'from_silo': 2,
-			'variety': 1,
+			'block': 1,
 			'weight': 1234,
 			'report_date': '1/6/1969'
 		}
@@ -58,7 +61,7 @@ class HarvestFormTests(TestCase):
 			'operation': 'dehusk',
 			'to_silo': 1,
 			'from_silo': 2,
-			'variety': 1,
+			'block': 1,
 			'weight': -1,  # calculated from 'counter'
 			'report_date': '1/6/1969'
 		}
@@ -80,5 +83,15 @@ class HarvestFormTests(TestCase):
 		self.assertTrue(form.is_valid())
 
 
+class HarvestXMLParseTest(TestCase):
+	def setUp(self):
+		xml_file = os.path.join(settings.BASE_DIR,  'data', 'B3003_namera_cqrreport.xml')
+		with open(xml_file, 'r') as myfile:
+			self.xml = myfile.read()
+
+	def test_parse_consignment_xml(self):
+		consignent = views.parse_consignment_xml(self.xml)
+		
+
 # class HarvestCRUDViewTests(TestCase):
-# 	def
+# 	def setUp(self):

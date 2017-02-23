@@ -1,6 +1,6 @@
 [
 {
-  "model": "harvest.variety",
+  "model": "harvest.block",
   "pk": 1,
   "fields": {
     "name": "H2/East block",
@@ -10,7 +10,7 @@
   }
 },
 {
-  "model": "harvest.variety",
+  "model": "harvest.block",
   "pk": 2,
   "fields": {
     "name": "H2/School block",
@@ -20,7 +20,7 @@
   }
 },
 {
-  "model": "harvest.variety",
+  "model": "harvest.block",
   "pk": 3,
   "fields": {
     "name": "Owners Choice (OC)",
@@ -30,7 +30,7 @@
   }
 },
 {
-  "model": "harvest.variety",
+  "model": "harvest.block",
   "pk": 4,
   "fields": {
     "name": "Nutty Glens (NG)",
@@ -40,7 +40,7 @@
   }
 },
 {
-  "model": "harvest.variety",
+  "model": "harvest.block",
   "pk": 5,
   "fields": {
     "name": "D4",
@@ -50,7 +50,7 @@
   }
 },
 {
-  "model": "harvest.variety",
+  "model": "harvest.block",
   "pk": 6,
   "fields": {
     "name": "246",
@@ -60,7 +60,7 @@
   }
 },
 {
-  "model": "harvest.variety",
+  "model": "harvest.block",
   "pk": 7,
   "fields": {
     "name": "floaters (MK)",
@@ -70,7 +70,7 @@
   }
 },
 {
-  "model": "harvest.variety",
+  "model": "harvest.block",
   "pk": 56,
   "fields": {
     "name": "Mixed (WW/NC)",
@@ -80,7 +80,7 @@
   }
 },
 {
-  "model": "harvest.variety",
+  "model": "harvest.block",
   "pk": 57,
   "fields": {
     "name": "Mixed (OC)",
@@ -90,7 +90,7 @@
   }
 },
 {
-  "model": "harvest.variety",
+  "model": "harvest.block",
   "pk": 58,
   "fields": {
     "name": "floaters (OC)",
@@ -100,7 +100,7 @@
   }
 },
 {
-  "model": "harvest.variety",
+  "model": "harvest.block",
   "pk": 59,
   "fields": {
     "name": "floaters (WW)",

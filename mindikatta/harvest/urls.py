@@ -44,4 +44,6 @@ urlpatterns = [
 	url(r'^docket/(?P<pk>[0-9]+)/delete$', views.SalesDocketRemove.as_view(), name='sale_delete'),
 	url(r'^sales/$', views.SalesDocketListing.as_view(), name='sales_list'),
 	url(r'^sales/(?P<year>[0-9]{4})/$', views.SalesDocketListing.as_view(), name='sales_list'),
+	
+	url(r'^process_consignment/$', views.ProcessConsignment.as_view(), name='process_consignment')
 ]
