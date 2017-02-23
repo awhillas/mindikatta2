@@ -26,7 +26,10 @@ class SalesDocket(models.Model):
 	
 	def __str__(self):
 		return "{} ({})".format(self.docket_number, self.date)
-	
+
+
+	class Meta:
+		permissions = (("can_view_consignment_reports", "Can view Consignment reports"),)
 
 
 class Silo(models.Model):
@@ -64,3 +67,6 @@ class Weighings(models.Model):
 
 	def __str__(self):
 		return "{}, ({})".format(self.weight, self.variety, self.operation)
+
+	class Meta:
+		permissions = (("can_view_weighing_reports", "Can view weighing reports"),)

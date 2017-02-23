@@ -49,12 +49,16 @@
 						<li class="nav-item">
 							<a class="nav-link{% if request.path == '/reports/' %} active{% endif %}" href="{% url 'harvest:reports' %}">Reports</a>
 						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="{% url 'harvest:weighing_list' %}">Weighings</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="{% url 'harvest:sales_list' %}">Sales Docket</a>
-						</li>
+						{% if perms.harvest.add_weighings %}
+							<li class="nav-item">
+								<a class="nav-link" href="{% url 'harvest:weighing_list' %}">Weighings</a>
+							</li>
+						{% endif %}
+						{% if perms.harvest.add_salesdocket %}
+							<li class="nav-item">
+								<a class="nav-link" href="{% url 'harvest:sales_list' %}">Sales Docket</a>
+							</li>
+						{% endif %}
 					</ul>
 					<ul class="navbar-nav">
 						<span class="navbar-text">Hello </span>

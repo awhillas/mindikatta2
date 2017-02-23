@@ -54,6 +54,7 @@ class Home(BaseTemplateView):
 		
 		return context
 
+
 class Reports(BaseTemplateView):
 	template_name = "harvest/reports.html"
 
@@ -140,7 +141,6 @@ class SalesDocketRemove(LoginRequiredMixin, DeleteView):
 	model = models.SalesDocket
 	# template_name = 'object_form.html'
 	success_url = reverse_lazy('harvest:sales_list')
-
 
 
 class SalesDocketListing(LoginRequiredMixin, ListView):
