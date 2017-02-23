@@ -17,15 +17,37 @@ class Farm(models.Model):  # same as Orchard
 class SalesDocket(models.Model):
 	
 	def __str__(self):
-		return "{} ({})".format(self.docket_number, self.date)
+		return "{} ({})".format(self.consignment_number, self.delivery_date)
 
 	# farm = models.ForeignKey(Farm, null=True)
 	
-	# consignment_number = models.CharField(max_length=10)
-	# delivery_date = models.DateField(default=timezone.now)
+	consignment_number = models.CharField(max_length=10)
+	delivery_date = models.DateField(default=timezone.now)
+	net_payment = models.DecimalField(max_digits=8, decimal_places=2, default=0) # --> ncv_total_value - mic35_pct_mc_total_levy
 	# kg_weight_received = models.IntegerField()
 	# moisture_content_pct = models.DecimalField(max_digits=3, decimal_places=1)
-	net_payment = models.DecimalField(max_digits=8, decimal_places=2) # --> ncv_total_value - mic35_pct_mc_total_levy
+	
+	# Map old names to new names...
+	
+	@property
+	def docket_number(self):
+		return self.consignment_number
+		
+	@property
+	def delivery_weight(self):
+		return self.kg_weight_received
+
+	@property
+	def percent_moisture(self):
+		return self.moisture_content_pct
+
+	# @property
+	# def net_payment(self):
+	# 	return self.ncv_total_value - self.mic35_pct_mc_total_levy
+	
+	@property
+	def date(self):
+		return self.delivery_date
 	
 	
 	# Consignment XML imported data
@@ -110,7 +132,7 @@ class Block(models.Model):
 	farm = models.ForeignKey(Farm)
 
 	def __str__(self):
-		return "{}, {}".format(self.name, self.block)
+		return "{}, {}".format(self.name, self.farm)
 		
 	class Meta:
 		verbose_name = "Block"
@@ -130,6 +152,10 @@ class Weighings(models.Model):
 	block = models.ForeignKey(Block)
 	weight = models.IntegerField()
 	report_date = models.DateTimeField(default=timezone.now)
+
+	class Meta:
+		verbose_name = "Weighing"
+		verbose_name_plural = "Weighings"
 
 	def __str__(self):
 		return "{}, ({}) {}".format(self.operation, self.weight, self.block)

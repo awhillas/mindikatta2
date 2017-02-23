@@ -45,6 +45,7 @@ ALLOWED_HOSTS = []
 
 SITE_TITLE = 'Mindikatta'
 
+LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 

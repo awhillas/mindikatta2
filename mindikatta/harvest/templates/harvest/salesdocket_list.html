@@ -29,10 +29,10 @@
 	<table class="table table-responsive table-striped">
 	  <thead>
 		<tr>
-			<th><a href="?sort={% if sort == 'date' %}-{% endif %}date">date</a></th>
-			<th><a href="?sort={% if sort == 'docket_number' %}-{% endif %}docket_number">docket number</a></th>
-			<th><a href="?sort={% if sort == 'delivery_weight' %}-{% endif %}delivery_weight">delivery weight</a></th>
-			<th><a href="?sort={% if sort == 'percent_moisture' %}-{% endif %}percent_moisture">moisture %</a></th>
+			<th><a href="?sort={% if sort == 'delivery_date' %}-{% endif %}delivery_date">Delivery date</a></th>
+			<th><a href="?sort={% if sort == 'consignment_number' %}-{% endif %}consignment_number">Consignment number</a></th>
+			<th><a href="?sort={% if sort == 'kg_weight_received' %}-{% endif %}kg_weight_received">weight received (KG)</a></th>
+			<th><a href="?sort={% if sort == 'moisture_content_pct' %}-{% endif %}moisture_content_pct">Moisture %</a></th>
 			<th><a href="?sort={% if sort == 'net_payment' %}-{% endif %}net_payment">net payment $</a></th>
 			<th></th>
 		</tr>
@@ -40,10 +40,10 @@
 	  <tbody>
 		{% for object in object_list %}
 			<tr>
-				<td scope="row">{{object.date | naturalday}}</td>
-				<td>{{object.docket_number}}</td>
+				<td scope="row">{{object.delivery_date | naturalday}}</td>
+				<td>{{object.consignment_number}}</td>
 				<td class="text-right">{{object.delivery_weight | intcomma}}</td>
-				<td class="text-right">{{object.percent_moisture}}</td>
+				<td class="text-right">{{object.moisture_content_pct}}</td>
 				<td class="text-right">{{object.net_payment | intcomma}}</td>
 				<td>
 					<div class="btn-group btn-group-sm" role="group" aria-label="Basic example">

@@ -6,11 +6,10 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth import get_user_model
 from django.conf import settings
 
-from . import forms
-from . import views
+from . import forms, views, factories
 
 
-class HarvestViewsTest(TestCase):
+class HarvestGeneralViewsTest(TestCase):
 	def setUp(self):
 		User = get_user_model()
 		self.scout_user = User.objects.create_user(username='tester', password='tester123')
@@ -35,7 +34,120 @@ class HarvestViewsTest(TestCase):
 		""" Test home view works if logged in """
 		self.assertTrue(self.client.login(username='tester', password='tester123'))  # login
 		response = self.client.get(reverse('harvest:home'))
+		self.assertEqual(response.status_code, 200)
+		
+
+class HarvestWeighingViewsTest(TestCase):
+	def setUp(self):
+		User = get_user_model()
+		self.scout_user = User.objects.create_user(username='tester', password='tester123')
+		self.weighing = factories.WeighingsFactory.create()
+
+	def test_create_weighing_view_works(self):
+		""" Test create 'weighing' view works """
+		view_name = 'harvest:weighing'
+		# Not logged in...
+		response = self.client.get(reverse(view_name))
+		self.assertEqual(response.status_code, 302)  # redirect to login
+		# After login...
+		self.assertTrue(self.client.login(username='tester', password='tester123'))  # login
+		response = self.client.get(reverse(view_name))
+		self.assertEqual(response.status_code, 200)  # OK
+
+	def test_weighing_edit_view_works(self):
+		""" Test 'weighing_edit' view works """
+		view_name = 'harvest:weighing_edit'
+		# Not logged in...
+		response = self.client.get(reverse(view_name, args=[self.weighing.pk]))
+		self.assertEqual(response.status_code, 302)  # redirect to login
+		# After login...
+		self.assertTrue(self.client.login(username='tester', password='tester123'))  # login
+		response = self.client.get(reverse(view_name, args=[self.weighing.pk]))
+		self.assertEqual(response.status_code, 200)  # OK
+
+	def test_weighing_delete_view_works(self):
+		""" Test 'weighing_edit' view works """
+		view_name = 'harvest:weighing_delete'
+		# Not logged in...
+		response = self.client.get(reverse(view_name, args=[self.weighing.pk]))
+		self.assertEqual(response.status_code, 302)  # redirect to login
+		# After login...
+		self.assertTrue(self.client.login(username='tester', password='tester123'))  # login
+		response = self.client.get(reverse(view_name, args=[self.weighing.pk]))
+		self.assertEqual(response.status_code, 200)  # OK
+
+	def test_weighing_listing_view_works(self):
+		""" Test weighing_list view works """
+		view_name = 'harvest:weighing_list'
+		# Not logged in...
+		response = self.client.get(reverse(view_name))
+		self.assertEqual(response.status_code, 302)  # redirect to login
+		# After login...
+		self.assertTrue(self.client.login(username='tester', password='tester123'))  # login
+		response = self.client.get(reverse(view_name))
+		self.assertEqual(response.status_code, 200)  # OK
+		# year filter
+		response = self.client.get(reverse(view_name, args=['2016']))
+		self.assertEqual(response.status_code, 200)  # OK
+
+	def test_CSV_weighing_listing_view_works(self):
+		""" Test 'weighing_list_csv' view works """
+		view_name = 'harvest:weighing_list_csv'
+		# Not logged in...
+		response = self.client.get(reverse(view_name, args=['2016']))
+		self.assertEqual(response.status_code, 302)  # redirect to login
+		# After login...
+		self.assertTrue(self.client.login(username='tester', password='tester123'))  # login
+		response = self.client.get(reverse(view_name, args=['2016']))
+		self.assertEqual(response.status_code, 200)  # OK
+
+	def test_home_views_works(self):
+		""" Consignment view works """
+		self.assertTrue(self.client.login(username='tester', password='tester123'))  # login
+		response = self.client.get(reverse('harvest:home'))
 		self.assertEqual(response.status_code, 200)  # if not logged in
+
+
+class HarvestSalesDocketViewsTest(TestCase):
+	def setUp(self):
+		User = get_user_model()
+		self.scout_user = User.objects.create_user(username='tester', password='tester123')
+		self.salesdocket = factories.SalesDocketFactory.create()
+
+	def test_create_salesdocket_view_works(self):
+		""" Test create 'sales' view works """
+		view_name = 'harvest:sales'
+		# Not logged in...
+		response = self.client.get(reverse(view_name))
+		self.assertEqual(response.status_code, 302)  # redirect to login
+		# After login...
+		self.assertTrue(self.client.login(username='tester', password='tester123'))  # login
+		response = self.client.get(reverse(view_name))
+		self.assertEqual(response.status_code, 200)  # OK
+
+	def test_salesdocket_edit_view_works(self):
+		""" Test 'sale_edit' view works """
+		view_name = 'harvest:sale_edit'
+		# Not logged in...
+		response = self.client.get(reverse(view_name, args=[self.salesdocket.pk]))
+		self.assertEqual(response.status_code, 302)  # redirect to login
+		# After login...
+		self.assertTrue(self.client.login(username='tester', password='tester123'))  # login
+		response = self.client.get(reverse(view_name, args=[self.salesdocket.pk]))
+		self.assertEqual(response.status_code, 200)  # OK
+
+	def test_salesdocket_delete_view_works(self):
+		""" Test 'sale_delete' view works """
+		view_name = 'harvest:sale_delete'
+		# Not logged in...
+		response = self.client.get(reverse(view_name, args=[self.salesdocket.pk]))
+		self.assertEqual(response.status_code, 302)  # redirect to login
+		# After login...
+		self.assertTrue(self.client.login(username='tester', password='tester123'))  # login
+		response = self.client.get(reverse(view_name, args=[self.salesdocket.pk]))
+		self.assertEqual(response.status_code, 200)  # OK
+
+
 
 
 class HarvestFormTests(TestCase):
@@ -72,10 +184,10 @@ class HarvestFormTests(TestCase):
 	def test_SalesDocketForm(self):
 		""" SalesDocketForm with valid data """
 		form_data = {
-			'docket_number': 1234,
-			'date': '1/6/1969',
+			'consignment_number': 1234,
+			'delivery_date': '1/6/1969',
 			'delivery_weight': 69,
-			'percent_moisture': 69.4,
+			'moisture_content_pct': 69.4,
 			'net_payment': 666
 		}
 		form = forms.SalesDocketForm(data=form_data)

@@ -12,14 +12,6 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name='salesdocket',
-            name='consignment_number',
-        ),
-        migrations.RemoveField(
-            model_name='salesdocket',
-            name='delivery_date',
-        ),
         migrations.AddField(
             model_name='salesdocket',
             name='ckr_pct_1_year_prev',

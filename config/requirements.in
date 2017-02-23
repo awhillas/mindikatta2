@@ -16,6 +16,7 @@ pandas
 
 # Debugging
 
+factory_boy
 django-nose
 Werkzeug
 # django-debug-toolbar

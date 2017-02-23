@@ -35,7 +35,7 @@ urlpatterns = [
 	url(r'^weighings/(?P<year>[0-9]{4})/(?P<operation>(dehusk|resort|sale))/$', views.WeighingListing.as_view(), name='weighing_list'),
 	# CSV versions
 	url(r'^weighings/(?P<year>[0-9]{4})/csv/$', views.WeighingListingCSV.as_view(), name='weighing_list_csv'),
-	url(r'^weighings/(?P<year>[0-9]{4})/(?P<operation>(dehusk|resort|sale))/csv/$', views.WeighingListingCSV.as_view(), name='weighing_list_csv'),
+	# url(r'^weighings/(?P<year>[0-9]{4})/(?P<operation>(dehusk|resort|sale))/csv/$', views.WeighingListingCSV.as_view(), name='weighing_list_csv'),
 
 	# Sales dockets
 

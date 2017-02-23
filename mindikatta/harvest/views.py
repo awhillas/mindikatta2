@@ -69,20 +69,18 @@ def parse_consignment_xml(raw_xml):
 	for test in root.find('DeliveryTestResults').iter('Test'):
 		name = test.find('TestName').text
 		value = test.find('TestResult').text.strip()
-		
+		if name in skip_list:
+			continue
 		note_el = test.find('TestNote')
 		note = name + ', ' + note_el.text.strip() if not note_el is None else name
 		note = note.replace('"', '')
 		
-		if name in skip_list:
-			continue
 		clean_name = clean(name)
 		data[clean_name] = float(value)
 		# print(name, value)
 		# print(note_el.text) if not note_el is None else print(note_el)
-		print('{} = FloatField(help_text="{}", blank=True, default=0.0)'.format(clean_name, note))
+		# print('{} = FloatField(help_text="{}", blank=True, default=0.0)'.format(clean_name, note))
 	
-	pprint(data)
 	return data
 
 
@@ -154,7 +152,7 @@ class WeighingListing(LoginRequiredMixin, ListView):
 			qs = qs.filter(report_date__year = datetime.datetime.now().year)
 
 		operation = self.kwargs.get('operation', False)
-		print("operation", operation)
+		# print("operation", operation)
 		if operation:
 			qs = qs.filter(operation = operation)
 		
@@ -184,11 +182,11 @@ class SalesDocketInput(LoginRequiredMixin, CreateView):
 	success_url = reverse_lazy('harvest:sales_list')
 	
 	def form_invalid(self, form):
-		pprint(form.errors)
+		# pprint(form.errors)
 		return super().form_invalid(form)
 	
 	def form_valid(self, form):
-		pprint(form.cleaned_data)
+		# pprint(form.cleaned_data)
 		return super().form_valid(form)
 
 
@@ -207,7 +205,7 @@ class SalesDocketRemove(LoginRequiredMixin, DeleteView):
 
 class SalesDocketListing(LoginRequiredMixin, ListView):
 	model = models.SalesDocket
-	ordering = '-date'
+	ordering = '-delivery_date'
 
 	def get_queryset(self):
 		qs = models.SalesDocket.objects.all()
@@ -215,25 +213,25 @@ class SalesDocketListing(LoginRequiredMixin, ListView):
 		# filter params
 		
 		year = self.kwargs.get('year', False)
-		print("year", year)
+		# print("year", year)
 		if year:
-			qs = qs.filter(date__year = year)
+			qs = qs.filter(delivery_date__year = year)
 		else:
-			qs = qs.filter(date__year = datetime.datetime.now().year)
+			qs = qs.filter(delivery_date__year = datetime.datetime.now().year)
 		
 		# GET params
 		sort = self.request.GET.get('sort', False)
 		if sort:
 			qs = qs.order_by(sort)
 		else:
-			qs = qs.order_by('-date')
+			qs = qs.order_by('-delivery_date')
 		
 		return qs
 
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
 		context['sort'] = self.request.GET.get('sort', False)
-		context['avaiable_years'] = [d.year for d in models.SalesDocket.objects.dates('date', 'year')]
+		context['avaiable_years'] = [d.year for d in models.SalesDocket.objects.dates('delivery_date', 'year')]
 		context['avaiable_years'].reverse()
 		context['current_year'] = int(self.kwargs.get('year', datetime.datetime.now().year))
 		return context
@@ -279,5 +277,5 @@ class ProcessConsignment(LoginRequiredMixin, TemplateView):
 	
 	def post(self, request, *args, **kwargs):
 		# process the XML
-		print(request.POST)
+		print("ProcessConsignment", request.POST)
 		return JsonResponse({ 'result': 'ok'})
