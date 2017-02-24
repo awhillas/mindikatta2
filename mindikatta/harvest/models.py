@@ -51,6 +51,7 @@ class SalesDocket(models.Model):
 	
 	
 	# Consignment XML imported data
+	report_date_time = models.DateField(null=True, blank=True)
 	
 	kg_weight_received = models.FloatField(help_text="KG-Weight_Received, ", blank=True, default=0.0)
 	moisture_content_pct = models.FloatField(help_text="MoistureContent-pct, ", blank=True, default=0.0)

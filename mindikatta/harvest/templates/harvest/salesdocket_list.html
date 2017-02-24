@@ -21,10 +21,11 @@
 
 	<div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Year toolbar">
 		<div class="btn-group" role="group" aria-label="Operations">
-			<a class="btn btn-success" href="{% url 'harvest:sales' %}">New Delivery Advice</a>
+			<a class="btn btn-success" href="{% url 'harvest:process_consignment' %}">Upload Consignment XML</a>
 		</div>
 	</div>
 	
+	{% if object_list %}
 	
 	<table class="table table-responsive table-striped">
 	  <thead>
@@ -59,8 +60,10 @@
 
 	<div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Year toolbar">
 		<div class="btn-group" role="group" aria-label="Operations">
-			<a class="btn btn-success" href="{% url 'harvest:sales' %}">New Delivery Advice</a>
+			<a class="btn btn-success" href="{% url 'harvest:process_consignment' %}">Upload Consignment XML</a>
 		</div>
 	</div>
+	
+	{% endif %}
 		
 {% endblock %}

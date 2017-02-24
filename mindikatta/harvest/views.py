@@ -7,7 +7,7 @@ import calendar
 
 import inflection
 from django.http import HttpResponse, JsonResponse
-from django.shortcuts import render
+from django.shortcuts import render, reverse
 from django.views.generic import View, TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
@@ -48,9 +48,7 @@ def parse_consignment_xml(raw_xml):
 		}
 		for old, new in translate.items():
 			text = text.replace(old, new)
-		
 		text = text.strip()
-		
 		text = text.translate(str.maketrans({' ':'_','%':'', '.':'', '(':'', ')':'', '"':'', '=':''}))
 		text = text.replace('__', '_')
 		return inflection.underscore(text)
@@ -63,7 +61,7 @@ def parse_consignment_xml(raw_xml):
 	dd = root.find('Delivery_Details')
 	for data_point in ['DeliveryDate', 'ReportDateTime']:
 		db_name = inflection.underscore(data_point)  # convert to snake_case
-		data[db_name] = dd.find(data_point)
+		data[db_name] = dd.find(data_point).text
 	
 	skip_list = ['QR-Date', 'Dehusking-Sorting Charge/Kg']
 	for test in root.find('DeliveryTestResults').iter('Test'):
@@ -71,16 +69,9 @@ def parse_consignment_xml(raw_xml):
 		value = test.find('TestResult').text.strip()
 		if name in skip_list:
 			continue
-		note_el = test.find('TestNote')
-		note = name + ', ' + note_el.text.strip() if not note_el is None else name
-		note = note.replace('"', '')
-		
 		clean_name = clean(name)
 		data[clean_name] = float(value)
-		# print(name, value)
-		# print(note_el.text) if not note_el is None else print(note_el)
-		# print('{} = FloatField(help_text="{}", blank=True, default=0.0)'.format(clean_name, note))
-	
+		
 	return data
 
 
@@ -114,6 +105,7 @@ class Home(BaseTemplateView):
 		context['operations'] = dict(models.Weighings.OP_CHOICES)
 		
 		return context
+
 
 class Reports(BaseTemplateView):
 	template_name = "harvest/reports.html"
@@ -277,5 +269,12 @@ class ProcessConsignment(LoginRequiredMixin, TemplateView):
 	
 	def post(self, request, *args, **kwargs):
 		# process the XML
-		print("ProcessConsignment", request.POST)
-		return JsonResponse({ 'result': 'ok'})
+		data = parse_consignment_xml(request.body.decode("utf-8").encode("ascii","ignore"))
+		data['net_payment'] = data['ncv_total_value'] - data['compulsory_levy']
+		form = forms.SalesDocketForm(data)
+		if form.is_valid():
+			new_salesdocket = form.save()
+			return JsonResponse({ 'result': 'ok', 'redirect_url': reverse('harvest:sale_edit', args=[new_salesdocket.pk])})
+		else:
+			pprint(form.errors)
+			return HttpResponse(status=400)

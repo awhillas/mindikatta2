@@ -93,14 +93,15 @@ function handleFileSelect(evt) {
         type: "POST",
         url: $('#UPLOAD_FORM').attr('action'),
         dataType: "json",  // what we expect back
-        contentType: "application/xml",
+        contentType: "text/xml",
         data: xml,
         headers: { "X-CSRFToken": $.cookie("csrftoken") },
         success: function (res) {
-            console.log("Data has been saved!");
+            console.log("Data has been saved! Redirecting to " + res['redirect_url']);
+            window.location.replace(res['redirect_url'])
         },
         error: function (res) {
-            alert("There was a problem, server said: " + res.statusText);
+            alert("There was a problem processing the data. Stringerver said: " + res.statusText);
         }
     });
   }
