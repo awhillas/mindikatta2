@@ -113,7 +113,7 @@ class Reports(BaseTemplateView):
 
 class WeighingInput(LoginRequiredMixin, CreateView):
 	model = models.Weighings
-	form_class = forms.CounterForm
+	form_class = forms.CounterForm  # Using the counter form not the weighings form
 	template_name = 'object_form.html'
 	success_url = reverse_lazy('harvest:weighing_list')
 

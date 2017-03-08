@@ -66,21 +66,20 @@ class CounterForm(WeighingsForm):
 	
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
-		self.helper = FormHelper()
-		self.helper.html5_required = True # HTML5 required attribute.
+		# self.helper = FormHelper()
+		# self.helper.html5_required = True # HTML5 required attribute.
+		self.helper.form_action = 'harvest:weighing'
 		self.helper.layout = Layout(
-			'counter',
-			CommonLayout()
+			Fieldset("Report Weighing Coutner",
+				'counter',
+				CommonLayout()
+			)
 		)
+		self.fields['weight'].initial = -69
 		
 	class Meta(WeighingsForm.Meta):
 		WeighingsForm.Meta.widgets['weight'] = widgets.HiddenInput()
 		
-	def get_initial(self):
-		return {
-			'weight': -1
-		}
-
 	def clean_counter(self):
 		if int(self.data['counter']) < 0:
 			raise forms.ValidationError("Must be greater then zero")
@@ -92,6 +91,7 @@ class CounterForm(WeighingsForm):
 class ISODateTimeField(forms.DateTimeField):
 	def strptime(self, value, format):
 		return parse_datetime(force_str(value))
+
 
 class SalesDocketForm(forms.ModelForm):
 	delivery_date = ISODateTimeField()

@@ -54,6 +54,27 @@ class HarvestWeighingViewsTest(TestCase):
 		response = self.client.get(reverse(view_name))
 		self.assertEqual(response.status_code, 200)  # OK
 
+	def test_create_weighing_form_submit_works(self):
+		view_name = 'harvest:weighing'
+		data = {
+			'operation': 'dehusk',
+			'to_silo': 0,
+			'from_silo': 1,
+			'block': 1,
+			'report_date': '01/06/1969',  # summer of '69 ;-)
+			'weight': -69,
+			'counter': 69
+		}
+		# Not logged in...
+		response = self.client.post(reverse(view_name), data)
+		self.assertEqual(response.status_code, 302)  # redirect to login
+		# After login...
+		self.assertTrue(self.client.login(username='tester', password='tester123'))  # login
+		response = self.client.post(reverse(view_name), data, follow=True)
+		self.assertTrue(len(response.redirect_chain) > 0)  # Should have been a redirect...
+		self.assertEqual(response.redirect_chain[0][0], reverse('harvest:weighing_list'))  # ...to weighing_list
+		self.assertEqual(response.status_code, 200)  # and we're all good.
+
 	def test_weighing_edit_view_works(self):
 		""" Test 'weighing_edit' view works """
 		view_name = 'harvest:weighing_edit'
@@ -146,8 +167,6 @@ class HarvestSalesDocketViewsTest(TestCase):
 		self.assertTrue(self.client.login(username='tester', password='tester123'))  # login
 		response = self.client.get(reverse(view_name, args=[self.salesdocket.pk]))
 		self.assertEqual(response.status_code, 200)  # OK
-
-
 
 
 class HarvestFormTests(TestCase):
