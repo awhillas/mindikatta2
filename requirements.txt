@@ -6,6 +6,7 @@
 #
 click==6.7                # via pip-tools
 dj-database-url==0.4.2
+django-anymail==0.8
 django-crispy-forms==1.6.1
 django-extensions==1.7.5
 django-html5==1.0.0
@@ -13,7 +14,7 @@ django-nose==1.4.4
 django-settings-export==1.2.1
 django==1.10.5
 factory-boy==2.8.1
-Faker==0.7.7              # via factory-boy
+faker==0.7.7              # via factory-boy
 first==2.0.1              # via pip-tools
 gunicorn==19.6.0
 inflection==0.3.1
@@ -24,6 +25,7 @@ pip-tools==1.8.0
 psycopg2==2.6.2
 python-dateutil==2.6.0    # via faker, pandas
 pytz==2016.10             # via pandas
-six==1.10.0               # via django-extensions, faker, pip-tools, python-dateutil
+requests==2.13.0          # via django-anymail
+six==1.10.0               # via django-anymail, django-extensions, faker, pip-tools, python-dateutil
 werkzeug==0.11.15
 whitenoise==3.3.0
