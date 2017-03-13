@@ -15,7 +15,8 @@ DATABASES = {
 
 INSTALLED_APPS += ["anymail"]
 
-EMAIL_BACKEND = "anymail.backends.sendgrid.SendGridBackend"
+# EMAIL_BACKEND = "anymail.backends.sendgrid.SendGridBackend"
+EMAIL_BACKEND = "anymail.backends.sendgrid_v2.EmailBackend"  # legacy coz it works
 
 ANYMAIL = {
     'SENDGRID_API_KEY': os.getenv('SENDGRID_API_KEY'),
