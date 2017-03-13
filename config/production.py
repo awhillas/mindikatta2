@@ -15,13 +15,10 @@ DATABASES = {
 
 INSTALLED_APPS += ["anymail"]
 
-# EMAIL_BACKEND = "anymail.backends.sendgrid.SendGridBackend"
-EMAIL_BACKEND = "anymail.backends.sendgrid_v2.EmailBackend"  # legacy coz it works
+EMAIL_BACKEND = "anymail.backends.sendgrid.SendGridBackend"
 
 ANYMAIL = {
-    'SENDGRID_API_KEY': os.getenv('SENDGRID_API_KEY'),
-    'SENDGRID_USERNAME': os.getenv('SENDGRID_USERNAME'),
-    'SENDGRID_PASSWORD': os.getenv('SENDGRID_PASSWORD'),
+    "SENDGRID_API_KEY":'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'
 }
 
 DEFAULT_FROM_EMAIL = 'Mindikatta Webmaster <whillas@gmail.com>'
