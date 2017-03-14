@@ -21,10 +21,12 @@
 
 
 	<div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Year toolbar">
+		{% if perms.harvest.add_weighings %}
 		<div class="btn-group" role="group" aria-label="Operations">
 			<a class="btn btn-success" href="{% url 'harvest:weighing' %}">Add Batch Weighing</a>
 		</div>
-		{% if object_list %}
+		{% endif %}
+		{% if object_list and perms.harvest.download_weighings_data %}
 			<div class="btn-group" role="group" aria-label="Download">
 				<a class="btn btn-secondary" href="{% url 'harvest:weighing_list_csv' year=current_year %}" title="Download the years data for Excel (.CSV)">Download {{current_year}}</a>
 			</div>
@@ -59,8 +61,12 @@
 			<td>{{object.to_silo}}</td>
 			<td>
 				<div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-					<a class="btn btn-warning" href="{% url 'harvest:weighing_edit' object.id %}">edit</a>
-					<a class="btn btn-danger" href="{% url 'harvest:weighing_delete' object.id %}">delete</a>
+					{% if perms.harvest.change_weighings %}
+						<a class="btn btn-warning" href="{% url 'harvest:weighing_edit' object.id %}">edit</a>
+					{% endif %}
+					{% if perms.harvest.delete_weighings %}
+						<a class="btn btn-danger" href="{% url 'harvest:weighing_delete' object.id %}">delete</a>
+					{% endif %}
 				</div>
 			</td>
 		  </tr>

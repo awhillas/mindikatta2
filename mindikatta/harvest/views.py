@@ -9,7 +9,7 @@ import inflection
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, reverse
 from django.views.generic import View, TemplateView
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.forms.models import model_to_dict
@@ -111,7 +111,8 @@ class Reports(BaseTemplateView):
 	template_name = "harvest/reports.html"
 
 
-class WeighingInput(LoginRequiredMixin, CreateView):
+class WeighingInput(PermissionRequiredMixin, CreateView):
+	permission_required = 'harvest.add_weighings'
 	model = models.Weighings
 	form_class = forms.CounterForm  # Using the counter form not the weighings form
 	template_name = 'object_form.html'
@@ -119,16 +120,19 @@ class WeighingInput(LoginRequiredMixin, CreateView):
 
 
 class WeighingEdit(WeighingInput, UpdateView):
+	permission_required = 'harvest.change_weighings'
 	form_class = forms.WeighingsForm
 
 
-class WeighingRemove(LoginRequiredMixin, DeleteView):
+class WeighingRemove(PermissionRequiredMixin, DeleteView):
+	permission_required = 'harvest.delete_weighings'
 	model = models.Weighings
 	# template_name = "object_delete.html"
 	success_url = reverse_lazy('harvest:weighing_list')
 
 
-class WeighingListing(LoginRequiredMixin, ListView):
+class WeighingListing(PermissionRequiredMixin, ListView):
+	permission_required = 'harvest.add_weighings'
 	model = models.Weighings
 	ordering = '-report_date'
 
@@ -167,7 +171,8 @@ class WeighingListing(LoginRequiredMixin, ListView):
 		return context
 
 
-class SalesDocketInput(LoginRequiredMixin, CreateView):
+class SalesDocketInput(PermissionRequiredMixin, CreateView):
+	permission_required = 'harvest.add_salesdocket'
 	model = models.SalesDocket
 	form_class = forms.SalesDocketForm
 	template_name = 'object_form.html'
@@ -182,20 +187,23 @@ class SalesDocketInput(LoginRequiredMixin, CreateView):
 		return super().form_valid(form)
 
 
-class SalesDocketEdit(LoginRequiredMixin, UpdateView):
+class SalesDocketEdit(PermissionRequiredMixin, UpdateView):
+	permission_required = 'harvest.change_salesdocket'
 	model = models.SalesDocket
 	form_class = forms.SalesDocketForm
 	template_name = 'object_form.html'
 	success_url = reverse_lazy('harvest:sales_list')
 
 
-class SalesDocketRemove(LoginRequiredMixin, DeleteView):
+class SalesDocketRemove(PermissionRequiredMixin, DeleteView):
+	permission_required = 'harvest.delete_salesdocket'
 	model = models.SalesDocket
 	# template_name = 'object_form.html'
 	success_url = reverse_lazy('harvest:sales_list')
 
 
-class SalesDocketListing(LoginRequiredMixin, ListView):
+class SalesDocketListing(PermissionRequiredMixin, ListView):
+	permission_required = 'harvest.add_salesdocket'
 	model = models.SalesDocket
 	ordering = '-delivery_date'
 

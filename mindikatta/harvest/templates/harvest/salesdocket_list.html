@@ -48,8 +48,12 @@
 				<td class="text-right">{{object.net_payment | intcomma}}</td>
 				<td>
 					<div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-						<a class="btn btn-warning" href="{% url 'harvest:sale_edit' object.id %}">edit</a>
-						<a class="btn btn-danger" href="{% url 'harvest:sale_delete' object.id %}">delete</a>
+						{% if perms.harvest.change_salesdocket %}
+							<a class="btn btn-warning" href="{% url 'harvest:sale_edit' object.id %}">edit</a>
+						{% endif %}
+						{% if perms.harvest.delete_salesdocket %}
+							<a class="btn btn-danger" href="{% url 'harvest:sale_delete' object.id %}">delete</a>
+						{% endif %}
 					</div>
 				</td>
 			</tr>

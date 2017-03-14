@@ -16,6 +16,14 @@ class Farm(models.Model):  # same as Orchard
 
 class SalesDocket(models.Model):
 	
+	class Meta:
+		verbose_name = "Consignment"
+		verbose_name_plural = "Consignments"
+		permissions = (
+			('view_salesdocket_reports', 'View Consignments Report Summaries'),
+			('download_salesdocket_data', 'Download Consignments CSV data'),
+		)
+	
 	def __str__(self):
 		return "{} ({})".format(self.consignment_number, self.delivery_date)
 
@@ -157,6 +165,10 @@ class Weighings(models.Model):
 	class Meta:
 		verbose_name = "Weighing"
 		verbose_name_plural = "Weighings"
+		permissions = (
+			('view_weighings_reports', 'View Weighing Report Summaries'),
+			('download_weighings_data', 'Download Weighing CSV data'),
+		)
 
 	def __str__(self):
 		return "{}, ({}) {}".format(self.operation, self.weight, self.block)

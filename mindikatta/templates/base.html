@@ -45,18 +45,26 @@
 				<ul class="navbar-nav mr-auto">
 
 					{% if user.is_authenticated %}
-
+					
+						{% comment %}
 						<li class="nav-item">
 							<a class="nav-link{% if request.path == '/reports/' %} active{% endif %}" href="{% url 'harvest:reports' %}">Reports</a>
 						</li>
+						{% endcomment %}
 						{% if perms.harvest.add_weighings %}
+						
 							<li class="nav-item">
 								<a class="nav-link" href="{% url 'harvest:weighing_list' %}">Weighings</a>
 							</li>
+						
 						{% endif %}
-						<li class="nav-item">
-							<a class="nav-link" href="{% url 'harvest:sales_list' %}">Sales Docket</a>
-						</li>
+						{% if perms.harvest.add_salesdocket %}
+						
+							<li class="nav-item">
+								<a class="nav-link" href="{% url 'harvest:sales_list' %}">Sales Docket</a>
+							</li>
+						
+						{% endif %}
 					</ul>
 					<ul class="navbar-nav">
 						<span class="navbar-text">Hello </span>
@@ -76,7 +84,7 @@
 					
 					{% endif %}
 
-				</ul>
+					</ul>
 			</div>
 		</nav>
 
@@ -92,6 +100,7 @@
 		</div><!-- /.container -->
 		
 		{% if settings.DEBUG %}
+		
 			<script src="{% static "js/vendor/jquery-3.1.1.js" %}"></script>
 			<script src="{% static "js/vendor/jquery.cookie.js" %}"></script>
 			<script src="{% static "js/vendor/tether-1.3.3.js" %}"></script>
