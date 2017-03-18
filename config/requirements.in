@@ -10,6 +10,8 @@ whitenoise  # serving static files in production coz Django doesn't
 django-settings-export
 inflection
 django-anymail
+djangorestframework
+django-filter
 
 # Data reporting
 

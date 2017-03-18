@@ -67,6 +67,7 @@ INSTALLED_APPS = [
 	
 	'django_extensions',
 	'django_nose',
+	'rest_framework',
 	
 	# project apps
 	
@@ -172,3 +173,11 @@ SETTINGS_EXPORT = [
 	'DEBUG',
 	'SITE_TITLE'
 ]
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# Django REST framework
+# http://www.django-rest-framework.org/
+
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',)
+}

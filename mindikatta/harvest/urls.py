@@ -13,16 +13,24 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url
+from django.conf.urls import url, include
 from django.contrib import admin
+from rest_framework import routers
 
 from . import views
+from .api_routes import router
 
 app_name = "harvest"
+
 
 urlpatterns = [
 	url(r'^$', views.Home.as_view(), name='home'),
 	url(r'^reports/$', views.Reports.as_view(), name='reports'),
+	
+	# API
+	
+	url(r'^api/', include('mindikatta.harvest.api_routes')),
+	url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 
 	# Weighings
 
