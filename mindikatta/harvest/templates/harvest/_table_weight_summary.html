@@ -1,0 +1,23 @@
+{% load harvest_tags %}
+{% load humanize %}
+
+<table class="table table-responsive table-striped">
+	<thead>
+		<th></th>
+		{% for month in summary.keys  %}
+			<th>{{ Xaxis | index:month }}</th>
+		{% endfor %}
+	</thead>
+	<tbody>
+		{% for thing in summary.index %}
+		<tr>
+			<td>{{ Yaxis | get_item:thing }}</td>
+			{% for month in summary  %}
+				<td>
+					{{ summary.to_dict | get_item:month | get_item:thing | intcomma }}
+				</td>
+			{% endfor %}
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>

@@ -83,6 +83,14 @@ class Home(BaseTemplateView):
 	template_name = "harvest/home.html"
 	
 	def get_context_data(self, **kwargs):
+		
+		def format_df(df, groupby_col):
+			# Totals grouped by operation and month
+			return df.groupby([
+				groupby_col,
+				df['report_date'].map(lambda x: x.month)
+			]).sum()['weight'].unstack().fillna("")
+		
 		context = super().get_context_data(**kwargs)
 		
 		# Get the last year we have data for
@@ -94,15 +102,15 @@ class Home(BaseTemplateView):
 		qs = models.Weighings.objects.filter(report_date__year=latest_year)
 		df = qs_to_df(qs)
 		
-		# Totals grouped by operation and month
-		
-		context['summary'] = df.groupby([
-			'operation',
-			df['report_date'].map(lambda x: x.month)
-		]).sum()['weight'].unstack().to_dict()
-		context['months'] = context['summary'].keys()
-		context['month_names'] = [calendar.month_name[i] for i in context['months']]
+		context['month_names'] = list(calendar.month_name)
 		context['operations'] = dict(models.Weighings.OP_CHOICES)
+		context['blocks'] = { d['id']: d['name'] for d in  models.Block.objects.all().values("id", "name")}
+		
+		context['operations_summary'] = format_df(df, 'operation')
+		context['block_summary_dehusk'] = format_df(df[df['operation'] == 'dehusk'], 'block')
+		context['block_summary_resort'] = format_df(df[df['operation'] == 'resort'], 'block')
+		context['block_summary_sale'] = format_df(df[df['operation'] == 'sale'], 'block')
+		
 		
 		return context
 

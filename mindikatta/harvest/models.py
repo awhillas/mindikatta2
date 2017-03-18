@@ -14,6 +14,55 @@ class Farm(models.Model):  # same as Orchard
 		return "{}".format(self.name)
 
 
+class Silo(models.Model):
+	name = models.CharField(max_length=10)
+	capacity = models.IntegerField()
+	export = models.IntegerField(default=0)
+	
+	def __str__(self):
+		return "{}".format(self.name)
+
+
+class Block(models.Model):
+	# Variety really...
+	name = models.CharField(max_length=20)
+	charting_colour = models.CharField(max_length=12)
+	farm = models.ForeignKey(Farm)
+
+	def __str__(self):
+		return "{}, {}".format(self.name, self.farm)
+		
+	class Meta:
+		verbose_name = "Block"
+		verbose_name_plural = "Blocks"
+
+
+class Weighings(models.Model):
+	OP_CHOICES = (
+		('dehusk', 'Dehusk'),
+		('resort', 'Resort'),
+		('sale', 'Sale'),
+	)
+	operation = models.CharField(max_length=6, choices=OP_CHOICES, default='dehusk')
+	to_silo = models.ForeignKey(Silo, related_name='+')
+	from_silo = models.ForeignKey(Silo, related_name='+')
+	# silo_emptyed = models.IntegerField(default=0)
+	block = models.ForeignKey(Block)
+	weight = models.IntegerField()
+	report_date = models.DateTimeField(default=timezone.now)
+
+	class Meta:
+		verbose_name = "Weighing"
+		verbose_name_plural = "Weighings"
+		permissions = (
+			('view_weighings_reports', 'View Weighing Report Summaries'),
+			('download_weighings_data', 'Download Weighing CSV data'),
+		)
+
+	def __str__(self):
+		return "{}, ({}) {}".format(self.operation, self.weight, self.block)
+
+
 class SalesDocket(models.Model):
 	
 	class Meta:
@@ -124,51 +173,3 @@ class SalesDocket(models.Model):
 	ckr_pct_3_year_prev = models.FloatField(help_text="CKR% 3 Yr Prev, YTD & Last 3 Years data", blank=True, default=0.0)
 	rkr_pct_3_year_prev = models.FloatField(help_text="RKR% 3 Yr Prev, YTD & Last 3 Years data", blank=True, default=0.0)
 	wk_pct_3_year_prev = models.FloatField(help_text="WK% 3 Yr Prev, YTD & Last 3 Years data", blank=True, default=0.0)
-
-
-class Silo(models.Model):
-	name = models.CharField(max_length=10)
-	capacity = models.IntegerField()
-	export = models.IntegerField(default=0)
-	
-	def __str__(self):
-		return "{}".format(self.name)
-
-
-class Block(models.Model):
-	name = models.CharField(max_length=20)
-	charting_colour = models.CharField(max_length=12)
-	farm = models.ForeignKey(Farm)
-
-	def __str__(self):
-		return "{}, {}".format(self.name, self.farm)
-		
-	class Meta:
-		verbose_name = "Block"
-		verbose_name_plural = "Blocks"
-
-
-class Weighings(models.Model):
-	OP_CHOICES = (
-		('dehusk', 'Dehusk'),
-		('resort', 'Resort'),
-		('sale', 'Sale'),
-	)
-	operation = models.CharField(max_length=6, choices=OP_CHOICES, default='dehusk')
-	to_silo = models.ForeignKey(Silo, related_name='+')
-	from_silo = models.ForeignKey(Silo, related_name='+')
-	# silo_emptyed = models.IntegerField(default=0)
-	block = models.ForeignKey(Block)
-	weight = models.IntegerField()
-	report_date = models.DateTimeField(default=timezone.now)
-
-	class Meta:
-		verbose_name = "Weighing"
-		verbose_name_plural = "Weighings"
-		permissions = (
-			('view_weighings_reports', 'View Weighing Report Summaries'),
-			('download_weighings_data', 'Download Weighing CSV data'),
-		)
-
-	def __str__(self):
-		return "{}, ({}) {}".format(self.operation, self.weight, self.block)

@@ -3,23 +3,88 @@
 {% load humanize %}
 
 {% block content %}
-	<h1>Summary of {{latest_year}}</h1>
+	<h1>Summary, {{latest_year}}</h1>
+	<h2>Operations</h2>
 	<table class="table table-responsive table-striped">
 		<thead>
 			<th></th>
-			{% for m in month_names  %}
-				<th>{{ m }}</th>
+			{% for month in operations_summary.keys  %}
+				<th>{{ month_names|index:month }}</th>
 			{% endfor %}
 		</thead>
 		<tbody>
-			{% for op, name in operations.items %}
+			{% for op in operations_summary.index %}
 			<tr>
-				<td>{{ name }}</td>
-				{% for m in months %}
-					<td>{{ summary | get_item:m | get_item:op | intcomma }}</td>
+				<td>{{ op }}</td>
+				{% for month in operations_summary  %}
+					<td>
+						{{ operations_summary.month }}
+						{{ operations_summary.to_dict | get_item:month | get_item:op | intcomma }}
+					</td>
 				{% endfor %}
 			</tr>
 			{% endfor %}
 		</tbody>
 	</table>
+	
+	<h2>Blocks</h2>
+	
+	<div id="accordion" role="tablist" aria-multiselectable="true">
+	  <div class="card">
+		<div class="card-header" role="tab" id="headingOne">
+		  <h5 class="mb-0">
+			<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+			
+				Dehusk
+			
+			</a>
+		  </h5>
+		</div>
+
+		<div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
+		  <div class="card-block">
+			  
+			  {% include "harvest/_table_weight_summary.html" with summary=block_summary_dehusk Xaxis=month_names Yaxis=blocks %}
+			  
+		  </div>
+		</div>
+	  </div>
+	  <div class="card">
+		<div class="card-header" role="tab" id="headingTwo">
+		  <h5 class="mb-0">
+			<a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+
+				Resort
+
+			</a>
+		  </h5>
+		</div>
+		<div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
+		  <div class="card-block">
+
+			{% include "harvest/_table_weight_summary.html" with summary=block_summary_resort Xaxis=month_names Yaxis=blocks %}
+
+		  </div>
+		</div>
+	  </div>
+	  <div class="card">
+		<div class="card-header" role="tab" id="headingThree">
+		  <h5 class="mb-0">
+			<a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+
+				Sales
+
+			</a>
+		  </h5>
+		</div>
+		<div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree">
+		  <div class="card-block">
+
+			  {% include "harvest/_table_weight_summary.html" with summary=block_summary_resort Xaxis=month_names Yaxis=blocks %}
+
+		  </div>
+		</div>
+	  </div>
+	</div>
+
 {% endblock %}

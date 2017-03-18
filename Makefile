@@ -25,22 +25,14 @@ db-start:
 	# Start local Postgres DB (we're using sqlite for now)
 	pg_ctl -D /usr/local/var/postgres9.5 -l ~/postgres9.5.log start
 
-db-refresh:
+db-copy:
+	# Copy the live DB
 	dropdb mindikatta_local
-	createdb mindikatta_local
-	python ./manage.py migrate
-	sed 's/`//g' mindikatta.sql | psql mindikatta_local
+	heroku pg:pull DATABASE_URL mindikatta_local --app mindikatta
 
-db-dump:
-	pg_dump mindikatta_local | gzip > ./data/mindikatta_local.dump.gz
+db-backup:
+	heroku pg:backups:capture --app mindikatta
+	heroku pg:backups:download --app mindikatta
 
 db-restore:
-	dropdb mindikatta_local
-	createdb mindikatta_local
-	gunzip -c ./data/mindikatta_local.dump.gz | psql mindikatta_local
-
-db-push:
-	# Local backup to heroku. DESTORYS THE LIVE VERSION!!
-	heroku pg:reset --app mindikatta
-	heroku run python manage.py migrate --app mindikatta
-	heroku pg:push mindikatta_local DATABASE --app mindikatta
+	pg_restore --verbose --clean --create --no-acl --no-owner -h localhost -U alex -d mindikatta_local latest.dump

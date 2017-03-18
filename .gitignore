@@ -17,6 +17,7 @@ tests/report/
 
 *.gz
 *.sqlite3
+*.dump
 *.log
 
 *.DS_Store
