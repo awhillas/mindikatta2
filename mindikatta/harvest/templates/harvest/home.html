@@ -3,8 +3,13 @@
 {% load humanize %}
 
 {% block content %}
+
+{% if perms.harvest.view_weighings_reports %}
+
 	<h1>Summary, {{latest_year}}</h1>
+	
 	<h2>Operations</h2>
+	
 	<table class="table table-responsive table-striped">
 		<thead>
 			<th></th>
@@ -27,7 +32,7 @@
 		</tbody>
 	</table>
 	
-	<h2>Blocks</h2>
+	<h2>Blocks / Varietys</h2>
 	
 	<div id="accordion" role="tablist" aria-multiselectable="true">
 	  <div class="card">
@@ -86,5 +91,7 @@
 		</div>
 	  </div>
 	</div>
+
+{% endif %}
 
 {% endblock %}
