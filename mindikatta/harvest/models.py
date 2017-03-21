@@ -44,8 +44,8 @@ class Weighings(models.Model):
 		('sale', 'Sale'),
 	)
 	operation = models.CharField(max_length=6, choices=OP_CHOICES, default='dehusk')
-	to_silo = models.ForeignKey(Silo, related_name='+')
-	from_silo = models.ForeignKey(Silo, related_name='+')
+	to_silo = models.ForeignKey(Silo, related_name='+', null=True, blank=True)
+	from_silo = models.ForeignKey(Silo, related_name='+', null=True, blank=True)
 	# silo_emptyed = models.IntegerField(default=0)
 	block = models.ForeignKey(Block)
 	weight = models.IntegerField()

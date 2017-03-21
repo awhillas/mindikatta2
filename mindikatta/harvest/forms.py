@@ -75,7 +75,7 @@ class CounterForm(WeighingsForm):
 				CommonLayout()
 			)
 		)
-		self.fields['weight'].initial = -69
+		self.fields['weight'].initial = -69  # so the form submits. see: clean_weight()
 		
 	class Meta(WeighingsForm.Meta):
 		WeighingsForm.Meta.widgets['weight'] = widgets.HiddenInput()
