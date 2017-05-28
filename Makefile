@@ -1,3 +1,7 @@
+setup:
+	createdb mindikatta_local
+	pip install pip-tools
+
 go:
 	python ./manage.py runserver_plus
 
@@ -10,13 +14,13 @@ models:
 	python ./manage.py migrate
 
 test:
-	python ./manage.py test --traceback --failfast -v 1 --settings=config.testing
+	python ./manage.py test --traceback --failfast -v 1
 
 deploy:
 	git push heroku master
 
 me:
-	python manage.py createsuperuser --username alex --email whillas@gmail.com
+	python manage.py createsuperuser --username alex --email whillas@gmail.com  --settings=config.local
 
 logs:
 	heroku logs --app mindikatta
