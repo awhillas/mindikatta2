@@ -26,7 +26,7 @@ def qs_to_df(qs):
 
 def parse_consignment_xml(raw_xml):
 	import xml.etree.ElementTree as et
-	
+
 	def clean(text):
 		translate = {
 			# 'PKR': 'Premium Kernel Recovery'
@@ -52,17 +52,17 @@ def parse_consignment_xml(raw_xml):
 		text = text.translate(str.maketrans({' ':'_','%':'', '.':'', '(':'', ')':'', '"':'', '=':''}))
 		text = text.replace('__', '_')
 		return inflection.underscore(text)
-	
+
 	data = {}
 	root = et.fromstring(raw_xml)
-	
+
 	data['consignment_number'] = root.find('Load-ID.').find('Consignment-No.').text
-	
+
 	dd = root.find('Delivery_Details')
 	for data_point in ['DeliveryDate', 'ReportDateTime']:
 		db_name = inflection.underscore(data_point)  # convert to snake_case
 		data[db_name] = dd.find(data_point).text
-	
+
 	skip_list = ['QR-Date', 'Dehusking-Sorting Charge/Kg']
 	for test in root.find('DeliveryTestResults').iter('Test'):
 		name = test.find('TestName').text
@@ -71,9 +71,18 @@ def parse_consignment_xml(raw_xml):
 			continue
 		clean_name = clean(name)
 		data[clean_name] = float(value)
-		
+
 	return data
 
+def format_df(df, groupby_col):
+	# Totals grouped by operation and month
+	return df.groupby([
+		groupby_col,
+		df['report_date'].map(lambda x: x.month)
+	]).sum()['weight'].unstack().fillna("")
+
+def get_latest_year():
+	return int(models.Weighings.objects.all().order_by('report_date').last().report_date.year)
 
 class BaseTemplateView(LoginRequiredMixin, TemplateView):
 	login_url = reverse_lazy('login')
@@ -81,42 +90,50 @@ class BaseTemplateView(LoginRequiredMixin, TemplateView):
 
 class Home(BaseTemplateView):
 	template_name = "harvest/home.html"
-	
+
+	def get_weighings(self):
+		print("Home")
+		return models.Weighings.objects.filter(report_date__year=get_latest_year())
+
 	def get_context_data(self, **kwargs):
-		
-		def format_df(df, groupby_col):
-			# Totals grouped by operation and month
-			return df.groupby([
-				groupby_col,
-				df['report_date'].map(lambda x: x.month)
-			]).sum()['weight'].unstack().fillna("")
-		
 		context = super().get_context_data(**kwargs)
-		
-		# Get the last year we have data for
-		
-		context['latest_year'] = latest_year = int(models.Weighings.objects.all().order_by('report_date').last().report_date.year)
-		
-		# build a query of just that year
-		
-		qs = models.Weighings.objects.filter(report_date__year=latest_year)
-		df = qs_to_df(qs)
-		
+
+		context['farms'] = models.Farm.objects.all()
+		context['latest_year'] = get_latest_year()
 		context['month_names'] = list(calendar.month_name)
+
+		# Get the last year we have data for
+
+		qs = self.get_weighings()
+		print(qs.count())
+		df = qs_to_df(qs)
+
 		context['operations'] = dict(models.Weighings.OP_CHOICES)
-		context['blocks'] = { d['id']: d['name'] for d in  models.Block.objects.all().values("id", "name")}
-		
+		context['blocks'] = { d['id']: d['name'] for d in models.Block.objects.all().values("id", "name")}
+
 		context['operations_summary'] = format_df(df, 'operation')
 		context['block_summary_dehusk'] = format_df(df[df['operation'] == 'dehusk'], 'block')
 		context['block_summary_resort'] = format_df(df[df['operation'] == 'resort'], 'block')
 		context['block_summary_sale'] = format_df(df[df['operation'] == 'sale'], 'block')
-		
-		
+
 		return context
 
 
-class Reports(BaseTemplateView):
-	template_name = "harvest/reports.html"
+class Reports(Home):
+	# template_name = "harvest/reports.html"
+
+	def get_weighings(self):
+		print("Reports")
+		blocks = models.Block.objects.filter(farm=self.kwargs['farm'])
+		qs = models.Weighings.objects.filter(report_date__year=get_latest_year())
+		qs = qs.filter(block__in=blocks)
+		print(qs.count())
+		return qs
+
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+		context['farm_id'] = models.Farm.objects.get(pk=self.kwargs['farm'])
+		return context
 
 
 class WeighingInput(PermissionRequiredMixin, CreateView):
@@ -146,9 +163,9 @@ class WeighingListing(PermissionRequiredMixin, ListView):
 
 	def get_queryset(self):
 		qs = models.Weighings.objects.all()
-		
+
 		# filter params
-		
+
 		year = self.kwargs.get('year', False)
 		if year:
 			qs = qs.filter(report_date__year = year)
@@ -159,16 +176,16 @@ class WeighingListing(PermissionRequiredMixin, ListView):
 		# print("operation", operation)
 		if operation:
 			qs = qs.filter(operation = operation)
-		
+
 		# GET params
 		sort = self.request.GET.get('sort', False)
 		if sort:
 			qs = qs.order_by(sort)
 		else:
 			qs = qs.order_by('-report_date')
-		
+
 		return qs
-	
+
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
 		context['sort'] = self.request.GET.get('sort', False)
@@ -185,11 +202,11 @@ class SalesDocketInput(PermissionRequiredMixin, CreateView):
 	form_class = forms.SalesDocketForm
 	template_name = 'object_form.html'
 	success_url = reverse_lazy('harvest:sales_list')
-	
+
 	def form_invalid(self, form):
 		# pprint(form.errors)
 		return super().form_invalid(form)
-	
+
 	def form_valid(self, form):
 		# pprint(form.cleaned_data)
 		return super().form_valid(form)
@@ -217,23 +234,23 @@ class SalesDocketListing(PermissionRequiredMixin, ListView):
 
 	def get_queryset(self):
 		qs = models.SalesDocket.objects.all()
-		
+
 		# filter params
-		
+
 		year = self.kwargs.get('year', False)
 		# print("year", year)
 		if year:
 			qs = qs.filter(delivery_date__year = year)
 		else:
 			qs = qs.filter(delivery_date__year = datetime.datetime.now().year)
-		
+
 		# GET params
 		sort = self.request.GET.get('sort', False)
 		if sort:
 			qs = qs.order_by(sort)
 		else:
 			qs = qs.order_by('-delivery_date')
-		
+
 		return qs
 
 	def get_context_data(self, **kwargs):
@@ -267,7 +284,7 @@ class CSVResponseMixin(object):
 			writer.writerow([d[key] for key in headers])
 
 		return response
-		
+
 	def get_data(self, context):
 		"""
 		Returns an object that will be serialized as CSV by json.dumps().
@@ -278,11 +295,11 @@ class CSVResponseMixin(object):
 class WeighingListingCSV(CSVResponseMixin, WeighingListing):
 	def render_to_response(self, context, **response_kwargs):
 		return self.render_to_csv_response(context, **response_kwargs)
-	
+
 
 class ProcessConsignment(LoginRequiredMixin, TemplateView):
 	template_name = 'harvest/upload_consignment.html'
-	
+
 	def post(self, request, *args, **kwargs):
 		# process the XML
 		data = parse_consignment_xml(request.body.decode("utf-8").encode("ascii","ignore"))

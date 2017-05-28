@@ -25,10 +25,10 @@ app_name = "harvest"
 
 urlpatterns = [
 	url(r'^$', views.Home.as_view(), name='home'),
-	url(r'^reports/$', views.Reports.as_view(), name='reports'),
-	
+	url(r'^reports/(?P<farm>[A-Z]{2})/$', views.Reports.as_view(), name='reports'),
+
 	# API
-	
+
 	url(r'^api/', include('mindikatta.harvest.api_routes')),
 	url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 
@@ -37,7 +37,7 @@ urlpatterns = [
 	url(r'^weighing/$', views.WeighingInput.as_view(), name='weighing'),
 	url(r'^weighing/(?P<pk>[0-9]+)/$', views.WeighingEdit.as_view(), name='weighing_edit'),
 	url(r'^weighing/(?P<pk>[0-9]+)/delete$', views.WeighingRemove.as_view(), name='weighing_delete'),
-	
+
 	url(r'^weighings/$', views.WeighingListing.as_view(), name='weighing_list'),
 	url(r'^weighings/(?P<year>[0-9]{4})/$', views.WeighingListing.as_view(), name='weighing_list'),
 	url(r'^weighings/(?P<year>[0-9]{4})/(?P<operation>(dehusk|resort|sale))/$', views.WeighingListing.as_view(), name='weighing_list'),
@@ -52,6 +52,6 @@ urlpatterns = [
 	url(r'^docket/(?P<pk>[0-9]+)/delete$', views.SalesDocketRemove.as_view(), name='sale_delete'),
 	url(r'^sales/$', views.SalesDocketListing.as_view(), name='sales_list'),
 	url(r'^sales/(?P<year>[0-9]{4})/$', views.SalesDocketListing.as_view(), name='sales_list'),
-	
+
 	url(r'^process_consignment/$', views.ProcessConsignment.as_view(), name='process_consignment')
 ]
