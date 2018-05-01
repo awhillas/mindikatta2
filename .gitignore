@@ -23,3 +23,5 @@ tests/report/
 *.DS_Store
 
 staticfiles/
+
+.vscode/

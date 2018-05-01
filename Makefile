@@ -16,6 +16,9 @@ models:
 test:
 	python ./manage.py test --traceback --failfast -v 1
 
+tests:
+	python ./manage.py test --traceback -v 1
+
 deploy:
 	git push heroku master
 

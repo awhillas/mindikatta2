@@ -9,7 +9,7 @@ class Farm(models.Model):  # same as Orchard
 	id = models.CharField(max_length=2, primary_key=True)
 	name = models.CharField(max_length=15)
 	address = models.CharField(max_length=255)
-	
+
 	def __str__(self):
 		return "{}".format(self.name)
 
@@ -18,7 +18,7 @@ class Silo(models.Model):
 	name = models.CharField(max_length=10)
 	capacity = models.IntegerField()
 	export = models.IntegerField(default=0)
-	
+
 	def __str__(self):
 		return "{}".format(self.name)
 
@@ -27,11 +27,11 @@ class Block(models.Model):
 	# Variety really...
 	name = models.CharField(max_length=20)
 	charting_colour = models.CharField(max_length=12)
-	farm = models.ForeignKey(Farm)
+	farm = models.ForeignKey(Farm, on_delete=models.DO_NOTHING)
 
 	def __str__(self):
 		return "{}, {}".format(self.name, self.farm)
-		
+
 	class Meta:
 		verbose_name = "Block"
 		verbose_name_plural = "Blocks"
@@ -44,10 +44,10 @@ class Weighings(models.Model):
 		('sale', 'Sale'),
 	)
 	operation = models.CharField(max_length=6, choices=OP_CHOICES, default='dehusk')
-	to_silo = models.ForeignKey(Silo, related_name='+', null=True, blank=True)
-	from_silo = models.ForeignKey(Silo, related_name='+', null=True, blank=True)
+	to_silo = models.ForeignKey(Silo, related_name='+', null=True, blank=True, on_delete=models.DO_NOTHING)
+	from_silo = models.ForeignKey(Silo, related_name='+', null=True, blank=True, on_delete=models.DO_NOTHING)
 	# silo_emptyed = models.IntegerField(default=0)
-	block = models.ForeignKey(Block)
+	block = models.ForeignKey(Block, on_delete=models.DO_NOTHING)
 	weight = models.IntegerField()
 	report_date = models.DateTimeField(default=timezone.now)
 
@@ -64,7 +64,7 @@ class Weighings(models.Model):
 
 
 class SalesDocket(models.Model):
-	
+
 	class Meta:
 		verbose_name = "Consignment"
 		verbose_name_plural = "Consignments"
@@ -72,24 +72,24 @@ class SalesDocket(models.Model):
 			('view_salesdocket_reports', 'View Consignments Report Summaries'),
 			('download_salesdocket_data', 'Download Consignments CSV data'),
 		)
-	
+
 	def __str__(self):
 		return "{} ({})".format(self.consignment_number, self.delivery_date)
 
 	# farm = models.ForeignKey(Farm, null=True)
-	
+
 	consignment_number = models.CharField(max_length=10)
 	delivery_date = models.DateField(default=timezone.now)
 	net_payment = models.DecimalField(max_digits=8, decimal_places=2, default=0) # --> ncv_total_value - mic35_pct_mc_total_levy
 	# kg_weight_received = models.IntegerField()
 	# moisture_content_pct = models.DecimalField(max_digits=3, decimal_places=1)
-	
+
 	# Map old names to new names...
-	
+
 	@property
 	def docket_number(self):
 		return self.consignment_number
-		
+
 	@property
 	def delivery_weight(self):
 		return self.kg_weight_received
@@ -101,15 +101,15 @@ class SalesDocket(models.Model):
 	# @property
 	# def net_payment(self):
 	# 	return self.ncv_total_value - self.mic35_pct_mc_total_levy
-	
+
 	@property
 	def date(self):
 		return self.delivery_date
-	
-	
+
+
 	# Consignment XML imported data
 	report_date_time = models.DateField(null=True, blank=True)
-	
+
 	kg_weight_received = models.FloatField(help_text="KG-Weight_Received, ", blank=True, default=0.0)
 	moisture_content_pct = models.FloatField(help_text="MoistureContent-pct, ", blank=True, default=0.0)
 	kg_weight10_pct_mc = models.FloatField(help_text="KG-Weight10%M.C., ", blank=True, default=0.0)

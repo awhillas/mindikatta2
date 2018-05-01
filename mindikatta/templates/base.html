@@ -1,32 +1,31 @@
 {% load static %}<!doctype html>
-<html class="no-js" lang="en">
+<html lang="en">
 	<head>
 		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		<meta http-equiv="x-ua-compatible" content="ie=edge">
+
 		<title>{% block title %}{% endblock %}{{settings.SITE_TITLE}}</title>
-		<meta name="description" content="">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
 
 		<!-- Place favicon.ico in the root directory -->
 		<link rel="apple-touch-icon" href="{% static "apple-touch-icon.png" %}">
-		
+
 		{% if settings.DEBUG %}
-		
+
 			<link href="{% static "css/vendor/bootstrap.min.css" %}" rel="stylesheet" type="text/css">
 			<link href="{% static "css/vendor/c3.css" %}" rel="stylesheet" type="text/css">
 			<script src="{% static "js/vendor/modernizr-2.8.3.min.js" %}"></script>
-		
+
 		{% else %}
-		
-			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
-			<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+
+			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
 		{% endif %}
-		
+
 		{% block css %}{% endblock %}
-		
+
 		<link rel="stylesheet" href="{% static "css/main.css" %}">
-		
+
 	</head>
 	<body>
 		<!--[if lt IE 8]>
@@ -34,36 +33,36 @@
 		<![endif]-->
 
 		<nav class="navbar navbar-toggleable-md navbar-inverse bg-primary fixed-top">
-			
+
 			<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
-			
+
 			<a class="navbar-brand" href="{% url 'harvest:home' %}">mindikatta</a>
 
 			<div class="collapse navbar-collapse" id="navbarsExampleDefault">
 				<ul class="navbar-nav mr-auto">
 
 					{% if user.is_authenticated %}
-					
+
 						{% comment %}
 						<li class="nav-item">
 							<a class="nav-link{% if request.path == '/reports/' %} active{% endif %}" href="{% url 'harvest:reports' %}">Reports</a>
 						</li>
 						{% endcomment %}
 						{% if perms.harvest.add_weighings %}
-						
+
 							<li class="nav-item">
 								<a class="nav-link" href="{% url 'harvest:weighing_list' %}">Weighings</a>
 							</li>
-						
+
 						{% endif %}
 						{% if perms.harvest.add_salesdocket %}
-						
+
 							<li class="nav-item">
 								<a class="nav-link" href="{% url 'harvest:sales_list' %}">Sales Docket</a>
 							</li>
-						
+
 						{% endif %}
 					</ul>
 					<ul class="navbar-nav">
@@ -81,7 +80,7 @@
 						<li class="nav-item">
 							<a class="nav-link{% if request.path == '/login/' %} active{% endif %}" href="{% url 'login' %}">Login</a>
 						</li>
-					
+
 					{% endif %}
 
 					</ul>
@@ -90,33 +89,36 @@
 
 		<!-- Add your site or application content here -->
 		<div class="container">
-		
+
 		{% block content %}
-		
+
 			{% include "index.html" %}
-		
+
 		{% endblock %}
-		
+
 		</div><!-- /.container -->
-		
+
 		{% if settings.DEBUG %}
-		
+
 			<script src="{% static "js/vendor/jquery-3.1.1.js" %}"></script>
 			<script src="{% static "js/vendor/jquery.cookie.js" %}"></script>
 			<script src="{% static "js/vendor/tether-1.3.3.js" %}"></script>
 			<script src="{% static "js/vendor/bootstrap.min.js" %}"></script>
 			<script src="{% static "js/vendor/d3.js" %}"></script>
 			<script src="{% static "js/vendor/c3.js" %}"></script>
-		
-		{% else %}
 
-			<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+		{% else %}
+			<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+			<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+			<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js" charset="utf-8"></script>
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
 			<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
 			<script src="https://d3js.org/d3.v4.min.js"></script>
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.11/c3.min.css"></script>
-		
+
 		{% endif %}
 
 		<script src="{% static "js/plugins.js" %}"></script>
