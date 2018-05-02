@@ -23,7 +23,6 @@ def qs_to_df(qs):
 	np_array = np.core.records.fromrecords(qs.values_list(), names=[f.name for f in Model._meta.fields])
 	return pd.DataFrame(np_array)
 
-
 def parse_consignment_xml(raw_xml):
 	import xml.etree.ElementTree as et
 
@@ -75,11 +74,13 @@ def parse_consignment_xml(raw_xml):
 	return data
 
 def format_df(df, groupby_col):
-	# Totals grouped by operation and month
-	return df.groupby([
-		groupby_col,
-		df['report_date'].map(lambda x: x.month)
-	]).sum()['weight'].unstack().fillna("")
+	# Totals grouped by ...
+	df_out = df.groupby([
+		groupby_col,								# ...operation...
+		df['report_date'].map(lambda x: calendar.month_name[x.month])	# ...and month.
+	]).sum()['weight'].unstack().fillna(0)
+	df_out['Total'] = df_out.sum(axis=1)
+	return df_out
 
 def get_latest_year():
 	return int(models.Weighings.objects.all().order_by('report_date').last().report_date.year)
@@ -90,9 +91,9 @@ class BaseTemplateView(LoginRequiredMixin, TemplateView):
 
 class Home(BaseTemplateView):
 	template_name = "harvest/home.html"
+	breadcrumbs = ['home']
 
 	def get_weighings(self):
-		print("Home")
 		return models.Weighings.objects.filter(report_date__year=get_latest_year())
 
 	def get_context_data(self, **kwargs):
@@ -100,12 +101,10 @@ class Home(BaseTemplateView):
 
 		context['farms'] = models.Farm.objects.all()
 		context['latest_year'] = get_latest_year()
-		context['month_names'] = list(calendar.month_name)
 
 		# Get the last year we have data for
 
 		qs = self.get_weighings()
-		print(qs.count())
 		df = qs_to_df(qs)
 
 		context['operations'] = dict(models.Weighings.OP_CHOICES)
@@ -121,13 +120,12 @@ class Home(BaseTemplateView):
 
 class Reports(Home):
 	# template_name = "harvest/reports.html"
+	breadcrumbs = ['reports']
 
 	def get_weighings(self):
-		print("Reports")
 		blocks = models.Block.objects.filter(farm=self.kwargs['farm'])
 		qs = models.Weighings.objects.filter(report_date__year=get_latest_year())
 		qs = qs.filter(block__in=blocks)
-		print(qs.count())
 		return qs
 
 	def get_context_data(self, **kwargs):
@@ -142,11 +140,13 @@ class WeighingInput(PermissionRequiredMixin, CreateView):
 	form_class = forms.CounterForm  # Using the counter form not the weighings form
 	template_name = 'object_form.html'
 	success_url = reverse_lazy('harvest:weighing_list')
+	breadcrumbs = ['weightings']
 
 
 class WeighingEdit(WeighingInput, UpdateView):
 	permission_required = 'harvest.change_weighings'
 	form_class = forms.WeighingsForm
+	breadcrumbs = ['weightings']
 
 
 class WeighingRemove(PermissionRequiredMixin, DeleteView):
@@ -154,12 +154,14 @@ class WeighingRemove(PermissionRequiredMixin, DeleteView):
 	model = models.Weighings
 	# template_name = "object_delete.html"
 	success_url = reverse_lazy('harvest:weighing_list')
+	breadcrumbs = ['weightings']
 
 
 class WeighingListing(PermissionRequiredMixin, ListView):
 	permission_required = 'harvest.add_weighings'
 	model = models.Weighings
 	ordering = '-report_date'
+	breadcrumbs = ['weightings']
 
 	def get_queryset(self):
 		qs = models.Weighings.objects.all()
@@ -173,7 +175,6 @@ class WeighingListing(PermissionRequiredMixin, ListView):
 			qs = qs.filter(report_date__year = datetime.datetime.now().year)
 
 		operation = self.kwargs.get('operation', False)
-		# print("operation", operation)
 		if operation:
 			qs = qs.filter(operation = operation)
 
@@ -202,13 +203,12 @@ class SalesDocketInput(PermissionRequiredMixin, CreateView):
 	form_class = forms.SalesDocketForm
 	template_name = 'object_form.html'
 	success_url = reverse_lazy('harvest:sales_list')
+	breadcrumbs = ['sales']
 
 	def form_invalid(self, form):
-		# pprint(form.errors)
 		return super().form_invalid(form)
 
 	def form_valid(self, form):
-		# pprint(form.cleaned_data)
 		return super().form_valid(form)
 
 
@@ -218,6 +218,7 @@ class SalesDocketEdit(PermissionRequiredMixin, UpdateView):
 	form_class = forms.SalesDocketForm
 	template_name = 'object_form.html'
 	success_url = reverse_lazy('harvest:sales_list')
+	breadcrumbs = ['sales']
 
 
 class SalesDocketRemove(PermissionRequiredMixin, DeleteView):
@@ -225,12 +226,14 @@ class SalesDocketRemove(PermissionRequiredMixin, DeleteView):
 	model = models.SalesDocket
 	# template_name = 'object_form.html'
 	success_url = reverse_lazy('harvest:sales_list')
+	breadcrumbs = ['sales']
 
 
 class SalesDocketListing(PermissionRequiredMixin, ListView):
 	permission_required = 'harvest.add_salesdocket'
 	model = models.SalesDocket
 	ordering = '-delivery_date'
+	breadcrumbs = ['sales']
 
 	def get_queryset(self):
 		qs = models.SalesDocket.objects.all()
@@ -238,7 +241,6 @@ class SalesDocketListing(PermissionRequiredMixin, ListView):
 		# filter params
 
 		year = self.kwargs.get('year', False)
-		# print("year", year)
 		if year:
 			qs = qs.filter(delivery_date__year = year)
 		else:

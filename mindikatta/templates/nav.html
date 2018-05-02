@@ -1,0 +1,48 @@
+{% comment %}
+    for active link approch
+    see: https://stackoverflow.com/a/19023893/196732
+{% endcomment %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <a class="navbar-brand" href="{% url 'harvest:home' %}">Harvest</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+
+        {% if user.is_authenticated %}
+
+            <div class="navbar-nav mr-auto">
+
+                {% if perms.harvest.add_weighings %}
+
+                    <a class="nav-item nav-link {% if 'weightings' in view.breadcrumbs %}active{% endif %}" href="{% url 'harvest:weighing_list' %}">Weighings</a>
+
+                {% endif %}
+                {% if perms.harvest.add_salesdocket %}
+
+                    <a class="nav-item nav-link {% if 'sales' in view.breadcrumbs %}active{% endif %}" href="{% url 'harvest:sales_list' %}">Sales Docket</a>
+
+                {% endif %}
+            </div>
+
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Hello, {{ user.username }}
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                        <a class="dropdown-item" href="{% url 'password_change' %}">Change password</a>
+                    </div>
+                </li>
+            </ul>
+
+        {% else %}
+
+            <div class="navbar-nav">
+                <a class="nav-item nav-link{% if request.path == '/login/' %} active{% endif %}" href="{% url 'login' %}">Login</a>
+            </div>
+
+        {% endif %}
+    </div>
+</nav>
