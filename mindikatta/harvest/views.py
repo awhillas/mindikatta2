@@ -13,9 +13,11 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.forms.models import model_to_dict
+from django.db.models import Sum
 
 from . import models, forms
 
+abbr_month_to_digit = dict((v.lower(),k) for k,v in enumerate(calendar.month_abbr))
 
 def qs_to_df(qs):
 	""" QuerySet to DataFrame """
@@ -84,6 +86,8 @@ def format_df(df, groupby_col):
 
 def get_latest_year():
 	return int(models.Weighings.objects.all().order_by('report_date').last().report_date.year)
+
+
 
 class BaseTemplateView(LoginRequiredMixin, TemplateView):
 	login_url = reverse_lazy('login')
@@ -179,6 +183,7 @@ class WeighingListing(PermissionRequiredMixin, ListView):
 			qs = qs.filter(operation = operation)
 
 		# GET params
+
 		sort = self.request.GET.get('sort', False)
 		if sort:
 			qs = qs.order_by(sort)
@@ -194,6 +199,51 @@ class WeighingListing(PermissionRequiredMixin, ListView):
 		context['avaiable_years'].reverse()
 		context['current_op'] = self.kwargs.get('operation', '')
 		context['current_year'] = int(self.kwargs.get('year', datetime.datetime.now().year))
+		return context
+
+class WeighingBreakdown(PermissionRequiredMixin, ListView):
+	permission_required = 'harvest.view_weighings_reports'
+	breadcrumbs = ['weightings']
+	template_name = 'harvest/breakdown.html'
+	farm = False
+	year = datetime.datetime.now().year
+	month = ''
+	operation = 'dehusk'
+
+	def get_queryset(self):
+		qs = models.Weighings.objects.all()
+
+		# filter params
+		self.farm = farm = self.kwargs.get('farm', False)
+		if farm:
+			blocks = models.Block.objects.filter(farm=farm)
+			print(blocks)
+			qs = qs.filter(block__in = blocks)
+
+		self.month = month = self.kwargs.get('month', calendar.month_abbr[datetime.datetime.now().month].lower())
+		if month:
+			qs = qs.filter(report_date__month = abbr_month_to_digit[month.lower()])
+
+		self.year = year = self.kwargs.get('year', datetime.datetime.now().year)
+		qs = qs.filter(report_date__year = year)
+
+		self.operation = operation = self.kwargs.get('operation', False)
+		if operation:
+			qs = qs.filter(operation = operation)
+
+		# GET params
+
+		sort = self.request.GET.get('sort', '-report_date')
+		qs = qs.order_by(sort)
+
+		return qs
+
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+		context['months'] = abbr_month_to_digit
+		context['total'] = self.get_queryset().aggregate(Sum('weight'))['weight__sum']
+		context['farm_name'] = models.Farm.objects.get(id=self.farm).name if self.farm else False
+		context['month_display'] = calendar.month_name[abbr_month_to_digit[self.month]]
 		return context
 
 

@@ -13,8 +13,8 @@
 		<tr>
 			<td>{{ Yaxis | get_item:thing }}</td>
 			{% for month in summary  %}
-				<td>
-					{{ summary.to_dict | get_item:month | get_item:thing | intcomma }}
+				<td  class="text-right">
+					{{ summary.to_dict | get_item:month | get_item:thing | floatformat | intcomma }}
 				</td>
 			{% endfor %}
 		</tr>

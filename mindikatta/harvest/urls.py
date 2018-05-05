@@ -22,10 +22,14 @@ from .api_routes import router
 
 app_name = "harvest"
 
-
 urlpatterns = [
 	url(r'^$', views.Home.as_view(), name='home'),
 	url(r'^reports/(?P<farm>[A-Z]{2})/$', views.Reports.as_view(), name='reports'),
+
+	url(r'^breakdown/(?P<year>[0-9]{4})/(?P<month>(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec))/$', views.WeighingBreakdown.as_view(), name='breakdown'),
+	url(r'^breakdown/(?P<year>[0-9]{4})/(?P<month>(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec))/(?P<operation>(dehusk|resort|sale))/$', views.WeighingBreakdown.as_view(), name='breakdown'),
+	url(r'^breakdown/(?P<farm>[A-Z]{2})/(?P<year>[0-9]{4})/(?P<month>(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec))/$', views.WeighingBreakdown.as_view(), name='breakdown'),
+	url(r'^breakdown/(?P<farm>[A-Z]{2})/(?P<year>[0-9]{4})/(?P<month>(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec))/(?P<operation>(dehusk|resort|sale))/$', views.WeighingBreakdown.as_view(), name='breakdown'),
 
 	# API
 
@@ -41,8 +45,10 @@ urlpatterns = [
 	url(r'^weighings/$', views.WeighingListing.as_view(), name='weighing_list'),
 	url(r'^weighings/(?P<year>[0-9]{4})/$', views.WeighingListing.as_view(), name='weighing_list'),
 	url(r'^weighings/(?P<year>[0-9]{4})/(?P<operation>(dehusk|resort|sale))/$', views.WeighingListing.as_view(), name='weighing_list'),
+
 	# CSV versions
-	url(r'^weighings/(?P<year>[0-9]{4})/csv/$', views.WeighingListingCSV.as_view(), name='weighing_list_csv'),
+
+	url(r'^csv/(?P<year>[0-9]{4})/$', views.WeighingListingCSV.as_view(), name='weighing_list_csv'),
 	# url(r'^weighings/(?P<year>[0-9]{4})/(?P<operation>(dehusk|resort|sale))/csv/$', views.WeighingListingCSV.as_view(), name='weighing_list_csv'),
 
 	# Sales dockets

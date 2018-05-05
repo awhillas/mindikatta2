@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% load harvest_tags %}
+{% load humanize %}
+
+{% block content %}
+{% comment %} <pre>{% debug %}</pre> {% endcomment %}
+
+    <h1>
+    {% if farm_name %}
+        {{ farm_name }} -
+    {% endif %}
+    {{ month_display }}, {{ view.year }}
+        {% if view.operation  %}
+        - {{ view.operation }}
+        {% endif %}
+    </h1>
+    <h2>
+        Total: {{total | intcomma}}kg
+    </h2>
+
+	{% if object_list %}
+        <table class="table table-responsive table-striped">
+        <thead>
+            <tr>
+            <th><a href="?sort={% if sort == 'report_date' %}-{% endif %}report_date">date</a></th>
+            <th><a href="?sort={% if sort == 'operation' %}-{% endif %}operation">operation</a></th>
+            <th><a href="?sort={% if sort == 'weight' %}-{% endif %}weight">weight</a></th>
+            <th><a href="?sort={% if sort == 'block' %}-{% endif %}block">variety</a></th>
+            <th><a href="?sort={% if sort == 'from_silo' %}-{% endif %}from_silo">from</a></th>
+            <th><a href="?sort={% if sort == 'to_silo' %}-{% endif %}to_silo">to</a></th>
+            <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for object in object_list %}
+            <tr>
+                <td>{{object.report_date | naturalday}}</td>
+                {% if current_op == object.operation %}
+                    <td>{{object.operation}}</td>
+                {% else %}
+                    <td><a href="{% url 'harvest:weighing_list' view.year object.operation %}">{{object.operation}}</a></td>
+                {% endif %}
+                <td>{{object.weight | intcomma}}</td>
+                <td>{{object.block}}</td>
+                <td>{{object.from_silo}}</td>
+                <td>{{object.to_silo}}</td>
+                <td>
+                    <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                        {% if perms.harvest.change_weighings %}
+                            <a class="btn btn-warning" href="{% url 'harvest:weighing_edit' object.id %}">edit</a>
+                        {% endif %}
+                        {% if perms.harvest.delete_weighings %}
+                            <a class="btn btn-danger" href="{% url 'harvest:weighing_delete' object.id %}">delete</a>
+                        {% endif %}
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        <table>
+	{% endif %}
+
+{% endblock %}
