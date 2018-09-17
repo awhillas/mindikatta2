@@ -69,7 +69,7 @@
 					Dehusk
 			</h5>
 			<div class="card-block">
-				{% include "harvest/_table_weight_summary.html" with summary=block_summary_dehusk Xaxis=month_names Yaxis=blocks %}
+				{% include "harvest/_table_weight_summary.html" with summary=block_summary_dehusk Xaxis=month_names Yaxis=blocks year=latest_year op="dehusk" %}
 			</div>
 		</div>
 	</div>
@@ -80,11 +80,10 @@
 					Resort
 			</h5>
 			<div class="card-block">
-				{% include "harvest/_table_weight_summary.html" with summary=block_summary_resort Xaxis=month_names Yaxis=blocks %}
+				{% include "harvest/_table_weight_summary.html" with summary=block_summary_resort Xaxis=month_names Yaxis=blocks year=latest_year op="dehusk" %}
 			</div>
 		</div>
 	</div>
-
 
 	<div class="card">
 		<div class="card-body">
@@ -92,7 +91,7 @@
 					Sales
 			</h5>
 			<div class="card-block">
-				{% include "harvest/_table_weight_summary.html" with summary=block_summary_resort Xaxis=month_names Yaxis=blocks %}
+				{% include "harvest/_table_weight_summary.html" with summary=block_summary_sale Xaxis=month_names Yaxis=blocks year=latest_year op="sale" %}
 			</div>
 		</div>
 	</div>

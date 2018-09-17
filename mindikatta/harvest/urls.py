@@ -28,6 +28,7 @@ urlpatterns = [
 
 	url(r'^breakdown/(?P<year>[0-9]{4})/(?P<month>(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec))/$', views.WeighingBreakdown.as_view(), name='breakdown'),
 	url(r'^breakdown/(?P<year>[0-9]{4})/(?P<month>(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec))/(?P<operation>(dehusk|resort|sale))/$', views.WeighingBreakdown.as_view(), name='breakdown'),
+	url(r'^breakdown/(?P<year>[0-9]{4})/(?P<month>(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec))/(?P<block>[0-9]*)/(?P<operation>(dehusk|resort|sale))/$', views.WeighingBreakdown.as_view(), name='breakdown'),
 	url(r'^breakdown/(?P<farm>[A-Z]{2})/(?P<year>[0-9]{4})/(?P<month>(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec))/$', views.WeighingBreakdown.as_view(), name='breakdown'),
 	url(r'^breakdown/(?P<farm>[A-Z]{2})/(?P<year>[0-9]{4})/(?P<month>(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec))/(?P<operation>(dehusk|resort|sale))/$', views.WeighingBreakdown.as_view(), name='breakdown'),
 

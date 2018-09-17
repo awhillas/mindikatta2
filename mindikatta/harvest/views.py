@@ -201,6 +201,7 @@ class WeighingListing(PermissionRequiredMixin, ListView):
 		context['current_year'] = int(self.kwargs.get('year', datetime.datetime.now().year))
 		return context
 
+
 class WeighingBreakdown(PermissionRequiredMixin, ListView):
 	permission_required = 'harvest.view_weighings_reports'
 	breadcrumbs = ['weightings']
@@ -217,7 +218,6 @@ class WeighingBreakdown(PermissionRequiredMixin, ListView):
 		self.farm = farm = self.kwargs.get('farm', False)
 		if farm:
 			blocks = models.Block.objects.filter(farm=farm)
-			print(blocks)
 			qs = qs.filter(block__in = blocks)
 
 		self.month = month = self.kwargs.get('month', calendar.month_abbr[datetime.datetime.now().month].lower())
@@ -230,6 +230,10 @@ class WeighingBreakdown(PermissionRequiredMixin, ListView):
 		self.operation = operation = self.kwargs.get('operation', False)
 		if operation:
 			qs = qs.filter(operation = operation)
+
+		self.block = block = self.kwargs.get('block', False)
+		if block:
+			qs = qs.filter(block = block)
 
 		# GET params
 

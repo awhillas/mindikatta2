@@ -13,8 +13,15 @@
 		<tr>
 			<td>{{ Yaxis | get_item:thing }}</td>
 			{% for month in summary  %}
-				<td  class="text-right">
-					{{ summary.to_dict | get_item:month | get_item:thing | floatformat | intcomma }}
+				<td class="text-right">
+					{% if month == 'Total' %}
+						{{ summary.to_dict | get_item:month | get_item:thing | floatformat | intcomma }}
+					{% else %}
+						<a href="{% url 'harvest:breakdown' year month|lower|slice:":3" thing op %}">
+							{{ summary.to_dict | get_item:month | get_item:thing | floatformat | intcomma }}
+						</a>
+					{% endif %}
+
 				</td>
 			{% endfor %}
 		</tr>
