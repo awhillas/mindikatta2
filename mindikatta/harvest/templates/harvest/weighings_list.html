@@ -6,33 +6,25 @@
 {% block content %}
 	<h1>
 		Weighings
-		{% if current_year > 0 %}<small class="text-muted">{{current_year}} {{current_op}}</small>{% endif %}
 	</h1>
-	<ul class="list-inline">
-		<li class="list-inline-item">Years:</li>
-		{% for year in avaiable_years %}
-			{% if current_year == year %}
-				<li class="list-inline-item">{{year }}</li>
-			{% else %}
-				<li class="list-inline-item"><a class="" href="{% url 'harvest:weighing_list' year=year %}">{{year}}</a></li>
-			{% endif %}
-		{% endfor %}
-	</ul>
+	<div class="btn-toolbar mb-3">
+		<div class="btn-group mr-2" role="group" aria-label="Select a year">
+			{% include "harvest/_year_selector.html" with link_name='harvest:weighing_list' %}
+		</div>
 
-
-	<div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Year toolbar">
 		{% if perms.harvest.add_weighings %}
-		<div class="btn-group" role="group" aria-label="Operations">
+		<div class="btn-group mr-2" role="group" aria-label="Operations">
 			<a class="btn btn-success" href="{% url 'harvest:weighing' %}">Add Batch Weighing</a>
 		</div>
 		{% endif %}
+
 		{% if object_list and perms.harvest.download_weighings_data %}
-			<div class="btn-group" role="group" aria-label="Download">
+			<div class="btn-group mr-2" role="group" aria-label="Download">
 				<a class="btn btn-secondary" href="{% url 'harvest:weighing_list_csv' year=current_year %}" title="Download the years data for Excel (.CSV)">Download {{current_year}}</a>
 			</div>
 		{% endif %}
 	</div>
-	
+
 	{% if object_list %}
 	<table class="table table-responsive table-striped">
 	  <thead>
@@ -73,7 +65,7 @@
 		  {% endfor %}
 	  </tbody>
 	<table>
-	
+
 	<div class="btn-group" role="group" aria-label="Operations">
 		<a class="btn btn-success" href="{% url 'harvest:weighing' %}">Add Batch Weighing</a>
 	</div>

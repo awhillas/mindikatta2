@@ -24,7 +24,10 @@ app_name = "harvest"
 
 urlpatterns = [
 	url(r'^$', views.Home.as_view(), name='home'),
+	url(r'^(?P<year>[0-9]{4})/$', views.Home.as_view(), name='home'),
+
 	url(r'^reports/(?P<farm>[A-Z]{2})/$', views.Reports.as_view(), name='reports'),
+	url(r'^reports/(?P<year>[0-9]{4})/(?P<farm>[A-Z]{2})/$', views.Reports.as_view(), name='reports'),
 
 	url(r'^breakdown/(?P<year>[0-9]{4})/(?P<month>(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec))/$', views.WeighingBreakdown.as_view(), name='breakdown'),
 	url(r'^breakdown/(?P<year>[0-9]{4})/(?P<month>(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec))/(?P<operation>(dehusk|resort|sale))/$', views.WeighingBreakdown.as_view(), name='breakdown'),

@@ -87,6 +87,10 @@ def format_df(df, groupby_col):
 def get_latest_year():
 	return int(models.Weighings.objects.all().order_by('report_date').last().report_date.year)
 
+def get_available_years():
+	return [d.year for d in models.Weighings.objects.dates('report_date', 'year')]
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 
 class BaseTemplateView(LoginRequiredMixin, TemplateView):
@@ -97,18 +101,19 @@ class Home(BaseTemplateView):
 	template_name = "harvest/home.html"
 	breadcrumbs = ['home']
 
-	def get_weighings(self):
-		return models.Weighings.objects.filter(report_date__year=get_latest_year())
+	def get_weighings(self, year):
+		return models.Weighings.objects.filter(report_date__year=year)
 
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
 
 		context['farms'] = models.Farm.objects.all()
-		context['latest_year'] = get_latest_year()
+		context['current_year'] = get_latest_year() if 'year' not in kwargs else kwargs['year']
+		context['avaiable_years'] = get_available_years()
+		context['avaiable_years'].reverse()
 
 		# Get the last year we have data for
-
-		qs = self.get_weighings()
+		qs = self.get_weighings(context['current_year'])
 		df = qs_to_df(qs)
 
 		context['operations'] = dict(models.Weighings.OP_CHOICES)
@@ -126,9 +131,9 @@ class Reports(Home):
 	# template_name = "harvest/reports.html"
 	breadcrumbs = ['reports']
 
-	def get_weighings(self):
+	def get_weighings(self, year):
 		blocks = models.Block.objects.filter(farm=self.kwargs['farm'])
-		qs = models.Weighings.objects.filter(report_date__year=get_latest_year())
+		qs = models.Weighings.objects.filter(report_date__year=year)
 		qs = qs.filter(block__in=blocks)
 		return qs
 
@@ -195,7 +200,7 @@ class WeighingListing(PermissionRequiredMixin, ListView):
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
 		context['sort'] = self.request.GET.get('sort', False)
-		context['avaiable_years'] = [d.year for d in models.Weighings.objects.dates('report_date', 'year')]
+		context['avaiable_years'] = get_available_years()
 		context['avaiable_years'].reverse()
 		context['current_op'] = self.kwargs.get('operation', '')
 		context['current_year'] = int(self.kwargs.get('year', datetime.datetime.now().year))

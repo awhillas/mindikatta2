@@ -1,0 +1,12 @@
+<div class="dropdown show">
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      {{ current_year }}
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+        {% for year in avaiable_years %}
+            {% if current_year != year %}
+                <a class="dropdown-item" href="{% url link_name year=year %}">{{year}}</a>
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>

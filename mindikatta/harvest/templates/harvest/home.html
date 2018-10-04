@@ -22,7 +22,9 @@
 	{% endfor %}
 </ul>
 
-	<h1>Summary, {{latest_year}}</h1>
+	<h1>Summary, {{current_year}}</h1>
+
+	{% include "harvest/_year_selector.html" with link_name='harvest:home' %}
 
 	<h2>Totals by Operation / Month</h2>
 
@@ -45,11 +47,11 @@
 					{% else %}
 
 						{% if farm_id.id %}
-							<a href="{% url 'harvest:breakdown' farm_id.id latest_year month|lower|slice:":3" op %}">
+							<a href="{% url 'harvest:breakdown' farm_id.id current_year month|lower|slice:":3" op %}">
 								{{ operations_summary.to_dict | get_item:month | get_item:op | floatformat | intcomma }}
 							</a>
 						{% else %}
-							<a href="{% url 'harvest:breakdown'  latest_year month|lower|slice:":3" op %}">
+							<a href="{% url 'harvest:breakdown' current_year month|lower|slice:":3" op %}">
 								{{ operations_summary.to_dict | get_item:month | get_item:op | floatformat | intcomma }}
 							</a>
 						{% endif %}
@@ -69,7 +71,7 @@
 					Dehusk
 			</h5>
 			<div class="card-block">
-				{% include "harvest/_table_weight_summary.html" with summary=block_summary_dehusk Xaxis=month_names Yaxis=blocks year=latest_year op="dehusk" %}
+				{% include "harvest/_table_weight_summary.html" with summary=block_summary_dehusk Xaxis=month_names Yaxis=blocks year=current_year op="dehusk" %}
 			</div>
 		</div>
 	</div>
@@ -80,7 +82,7 @@
 					Resort
 			</h5>
 			<div class="card-block">
-				{% include "harvest/_table_weight_summary.html" with summary=block_summary_resort Xaxis=month_names Yaxis=blocks year=latest_year op="dehusk" %}
+				{% include "harvest/_table_weight_summary.html" with summary=block_summary_resort Xaxis=month_names Yaxis=blocks year=current_year op="dehusk" %}
 			</div>
 		</div>
 	</div>
@@ -91,7 +93,7 @@
 					Sales
 			</h5>
 			<div class="card-block">
-				{% include "harvest/_table_weight_summary.html" with summary=block_summary_sale Xaxis=month_names Yaxis=blocks year=latest_year op="sale" %}
+				{% include "harvest/_table_weight_summary.html" with summary=block_summary_sale Xaxis=month_names Yaxis=blocks year=current_year op="sale" %}
 			</div>
 		</div>
 	</div>
