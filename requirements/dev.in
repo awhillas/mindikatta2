@@ -4,3 +4,5 @@ django-nose
 Faker
 factory_boy
 Werkzeug
+pylint
+black
