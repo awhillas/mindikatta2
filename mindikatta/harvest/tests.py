@@ -1,18 +1,18 @@
-from pprint import pprint
 import os
+from pprint import pprint
 
+from django.conf import settings
+from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
-from django.contrib.auth import get_user_model
-from django.conf import settings
 
-from . import forms, views, factories
+from . import factories, forms, views
 
 
 class HarvestGeneralViewsTest(TestCase):
 	def setUp(self):
 		User = get_user_model()
-		self.scout_user = User.objects.create_user(username='tester', password='tester123', email='test@example.com')
+		self.scout_user = User.objects.create_superuser(username='tester', password='tester123', email='test@example.com', is_staff=True)
 
 	def test_reports_views_redirects_strangers(self):
 		""" Test reports view redirects if not logged in """
@@ -40,18 +40,15 @@ class HarvestGeneralViewsTest(TestCase):
 class HarvestWeighingViewsTest(TestCase):
 	def setUp(self):
 		User = get_user_model()
-		self.scout_user = User.objects.create_user(username='tester', password='tester123', email='test@example.com')
+		self.scout_user = User.objects.create_superuser(username='tester', password='tester123', email='test@example.com', is_staff=True)
 		self.scout_user.save()
 		self.weighing = factories.WeighingsFactory.create()
+		self.client.force_login(self.scout_user)  # login
+
 
 	def test_create_weighing_view_works(self):
 		""" Test create 'weighing' view works """
 		view_name = 'harvest:weighing'
-		# Not logged in...
-		response = self.client.get(reverse(view_name))
-		self.assertEqual(response.status_code, 302)  # redirect to login
-		# After login...
-		self.assertTrue(self.client.login(username='tester', password='tester123'))  # login
 		response = self.client.get(reverse(view_name))
 		self.assertEqual(response.status_code, 200)  # OK
 
@@ -80,33 +77,18 @@ class HarvestWeighingViewsTest(TestCase):
 	def test_weighing_edit_view_works(self):
 		""" Test 'weighing_edit' view works """
 		view_name = 'harvest:weighing_edit'
-		# Not logged in...
-		response = self.client.get(reverse(view_name, args=[self.weighing.pk]))
-		self.assertEqual(response.status_code, 302)  # redirect to login
-		# After login...
-		self.assertTrue(self.client.login(username='tester', password='tester123'))  # login
 		response = self.client.get(reverse(view_name, args=[self.weighing.pk]))
 		self.assertEqual(response.status_code, 200)  # OK
 
 	def test_weighing_delete_view_works(self):
 		""" Test 'weighing_edit' view works """
 		view_name = 'harvest:weighing_delete'
-		# Not logged in...
-		response = self.client.get(reverse(view_name, args=[self.weighing.pk]))
-		self.assertEqual(response.status_code, 302)  # redirect to login
-		# After login...
-		self.assertTrue(self.client.login(username='tester', password='tester123'))  # login
 		response = self.client.get(reverse(view_name, args=[self.weighing.pk]))
 		self.assertEqual(response.status_code, 200)  # OK
 
 	def test_weighing_listing_view_works(self):
 		""" Test weighing_list view works """
 		view_name = 'harvest:weighing_list'
-		# Not logged in...
-		response = self.client.get(reverse(view_name))
-		self.assertEqual(response.status_code, 302)  # redirect to login
-		# After login...
-		self.assertTrue(self.client.login(username='tester', password='tester123'))  # login
 		response = self.client.get(reverse(view_name), follow=True)
 		self.assertEqual(response.status_code, 200)  # OK
 		# year filter
@@ -116,17 +98,11 @@ class HarvestWeighingViewsTest(TestCase):
 	def test_CSV_weighing_listing_view_works(self):
 		""" Test 'weighing_list_csv' view works """
 		view_name = 'harvest:weighing_list_csv'
-		# Not logged in...
-		response = self.client.get(reverse(view_name, args=['2016']))
-		self.assertEqual(response.status_code, 302)  # redirect to login
-		# After login...
-		self.assertTrue(self.client.login(username='tester', password='tester123'))  # login
 		response = self.client.get(reverse(view_name, args=['2016']), follow=True)
 		self.assertEqual(response.status_code, 200)  # OK
 
 	def test_home_views_works(self):
 		""" Consignment view works """
-		self.assertTrue(self.client.login(username='tester', password='tester123'))  # login
 		response = self.client.get(reverse('harvest:home'))
 		self.assertEqual(response.status_code, 200)  # if not logged in
 
@@ -134,39 +110,27 @@ class HarvestWeighingViewsTest(TestCase):
 class HarvestSalesDocketViewsTest(TestCase):
 	def setUp(self):
 		User = get_user_model()
-		self.scout_user = User.objects.create_user(username='tester', password='tester123', email='test@example.com')
+		self.scout_user = User.objects.create_superuser(username='tester', password='tester123', email='test@example.com', is_staff=True)
 		self.salesdocket = factories.SalesDocketFactory.create()
+		self.client.force_login(self.scout_user)  # login
 
 	def test_create_salesdocket_view_works(self):
 		""" Test create 'sales' view works """
 		view_name = 'harvest:sales'
-		# Not logged in...
-		response = self.client.get(reverse(view_name))
-		self.assertEqual(response.status_code, 302)  # redirect to login
-		# After login...
-		self.assertTrue(self.client.login(username='tester', password='tester123'))  # login
 		response = self.client.get(reverse(view_name), follow=True)
 		self.assertEqual(response.status_code, 200)  # OK
 
 	def test_salesdocket_edit_view_works(self):
 		""" Test 'sale_edit' view works """
 		view_name = 'harvest:sale_edit'
-		# Not logged in...
-		response = self.client.get(reverse(view_name, args=[self.salesdocket.pk]))
-		self.assertEqual(response.status_code, 302)  # redirect to login
-		# After login...
-		self.assertTrue(self.client.login(username='tester', password='tester123'))  # login
+		self.client.force_login(self.scout_user)  # login
 		response = self.client.get(reverse(view_name, args=[self.salesdocket.pk]), follow=True)
 		self.assertEqual(response.status_code, 200)  # OK
 
 	def test_salesdocket_delete_view_works(self):
 		""" Test 'sale_delete' view works """
 		view_name = 'harvest:sale_delete'
-		# Not logged in...
-		response = self.client.get(reverse(view_name, args=[self.salesdocket.pk]))
-		self.assertEqual(response.status_code, 302)  # redirect to login
-		# After login...
-		self.assertTrue(self.client.login(username='tester', password='tester123'))  # login
+		self.client.force_login(self.scout_user)  # login
 		response = self.client.get(reverse(view_name, args=[self.salesdocket.pk]), follow=True)
 		self.assertEqual(response.status_code, 200)  # OK
 
