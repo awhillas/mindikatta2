@@ -1,3 +1,4 @@
+# THIS FILE IS DEPRECIATED SEE THE requirements/base.in FILE
 pip-tools
 psycopg2
 dj-database-url
