@@ -1,6 +1,6 @@
-from config.settings import *
 import dj_database_url
 
+from config.settings import *
 
 SITE_TITLE = 'Mindikatta DEV'
 
@@ -13,7 +13,7 @@ DATABASES = {
 			'ENGINE': 'django.db.backends.postgresql_psycopg2',
 			'NAME': 'mindikatta_local',
 			'USER': 'alex',
-			'PASSWORD': '',
+			'PASSWORD': 'xela',
 			'HOST': 'localhost',
 			'PORT': '',
 		}
