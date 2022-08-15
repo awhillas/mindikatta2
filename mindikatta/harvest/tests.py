@@ -189,14 +189,18 @@ class HarvestFormTests(TestCase):
     def test_SalesDocketForm(self):
         """SalesDocketForm with valid data"""
         form_data = {
-            "consignment_number": 1234,
+            "consignment_number": "E1234",
             "delivery_date": "2016-09-15T15:39:54",
-            "report_date_time": "2016-09-15T15:39:54",  # this should not be required :-/
-            "delivery_weight": 69,
+            "kg_weight_received": 1234.69,
             "moisture_content_pct": 69.4,
             "net_payment": 666.69,
-            "kg_weight_received": 1234,
-            "moisture_content_pct": 12.1,
+            "docket_number": 12345,
+            "block": 1,
+            "kg_weight10_pct_mc": 6000.69,
+            "ncv_total_value": 25802.32,
+            "total_levy": 368.07,
+            "total_leviable_kernel": 1460,
+            "dehusking_sorting": 1.2,
         }
         form = forms.SalesDocketForm(data=form_data)
         # pprint(form.errors)
