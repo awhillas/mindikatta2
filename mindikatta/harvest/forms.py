@@ -87,8 +87,7 @@ class ISODateTimeField(forms.DateTimeField):
 
 
 class SalesDocketForm(forms.ModelForm):
-    delivery_date = ISODateTimeField()
-    # report_date_time = ISODateTimeField()
+    # delivery_date = ISODateTimeField() # ???
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -113,6 +112,13 @@ class SalesDocketForm(forms.ModelForm):
             FormActions(Submit("save", "Save changes"), Button("cancel", "Cancel")),
         )
 
+    class Meta:
+        model = SalesDocket
+        fields = "__all__"
+        widgets = {
+            "delivery_date": html5.DateInput(),
+        }
+
     def clean_net_payment(self):
         if int(self.cleaned_data["net_payment"]) < 0:
             raise forms.ValidationError("Must be greater then zero")
@@ -128,10 +134,3 @@ class SalesDocketForm(forms.ModelForm):
         if int(self.cleaned_data["kg_weight_received"]) < 0:
             raise forms.ValidationError("Must be greater then zero")
         return self.cleaned_data["kg_weight_received"]
-
-    class Meta:
-        model = SalesDocket
-        fields = "__all__"
-        widgets = {
-            "delivery_date": html5.DateInput(),
-        }
