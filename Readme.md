@@ -57,9 +57,20 @@ then typing `psql` should get you into the postgres shell (`\q` to exit). Then d
     python3.  -m venv --prompt mindikatta __venv__
     pip install
 
-## Make database migration (after DB schema change)
+## Database changes
+
+Make changes in the `mindikatta/harvest/models.py` file then
 
     make models
+    make tests
+
+to update the live DB on heroku you need to ssh into the live instance
+
+    heroku run bash
+
+and then run:
+
+    python manage.py migrate
 
 ## Deployment
 

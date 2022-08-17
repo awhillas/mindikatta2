@@ -32,22 +32,41 @@
 			<th><a href="?sort={% if sort == 'delivery_date' %}-{% endif %}delivery_date">Delivery date</a></th>
 			<th><a href="?sort={% if sort == 'consignment_number' %}-{% endif %}consignment_number">Consignment
 					number</a></th>
-			<th><a href="?sort={% if sort == 'kg_weight_received' %}-{% endif %}kg_weight_received">weight received
-					(KG)</a></th>
-			<th><a href="?sort={% if sort == 'moisture_content_pct' %}-{% endif %}moisture_content_pct">Moisture %</a>
+			<th><a href="?sort={% if sort == 'docket_number' %}-{% endif %}docket_number">Docket Number</a></th>
+			<th><a href="?sort={% if sort == 'block' %}-{% endif %}block">Producing Farm</a></th>
+			<th><a href="?sort={% if sort == 'kg_weight10_pct_mc' %}-{% endif %}kg_weight10_pct_mc">NIS @ 10% MC</a>
 			</th>
-			<th><a href="?sort={% if sort == 'net_payment' %}-{% endif %}net_payment">net payment $</a></th>
+			<th><a href="?sort={% if sort == 'total_leviable_kernel' %}-{% endif %}total_leviable_kernel">Kernal @ 3.5%
+					(kg)</a></th>
+			<th><a href="?sort={% if sort == 'ncv_total_value' %}-{% endif %}ncv_total_value">Consignment Value</a></th>
+			<th><a href="?sort={% if sort == 'total_levy' %}-{% endif %}total_levy">Industry Levy</a></th>
+			<th><a href="?sort={% if sort == 'dehusking_sorting' %}-{% endif %}dehusking_sorting">Dehusking /
+					Sorting</a></th>
+			<th>Net Value</th>
+
+			<!-- <th><a href="?sort={% if sort == 'kg_weight_received' %}-{% endif %}kg_weight_received">weight received
+					(KG)</a></th>
+			</th>
+			<th><a href="?sort={% if sort == 'net_payment' %}-{% endif %}net_payment">net payment $</a></th> -->
 			<th></th>
 		</tr>
 	</thead>
 	<tbody>
 		{% for object in object_list %}
 		<tr>
-			<td scope="row">{{object.delivery_date | naturalday}}</td>
+			<td scope="row">{{object.delivery_date | naturalday:"d-m"}}</td>
 			<td>{{object.consignment_number}}</td>
-			<td class="text-right">{{object.delivery_weight | intcomma}}</td>
-			<td class="text-right">{{object.moisture_content_pct}}</td>
-			<td class="text-right">{{object.net_payment | intcomma}}</td>
+			<td>{{object.docket_number}}</td>
+			<td>{{object.block}}</td>
+			<td class="text-right">{{object.kg_weight10_pct_mc | intcomma}}</td>
+			<td class="text-right">{{object.total_leviable_kernel | intcomma}}</td>
+			<td class="text-right">{{object.ncv_total_value | intcomma}}</td>
+			<td class="text-right">{{object.total_levy | intcomma}}</td>
+			<td class="text-right">{{object.dehusking_sorting | intcomma}}</td>
+			<td class="text-right">{{object.net_value | intcomma}}</td>
+			<!-- <td class="text-right">{{object.delivery_weight | intcomma}}</td>
+			<td class="text-right">{{object.net_payment | intcomma}}</td> -->
+
 			<td>
 				<div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
 					{% if perms.harvest.change_salesdocket %}
@@ -64,11 +83,7 @@
 	<table>
 
 
-		<div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Year toolbar">
-			<div class="btn-group" role="group" aria-label="Operations">
-				<a class="btn btn-success" href="{% url 'harvest:process_consignment' %}">Upload Consignment XML</a>
-			</div>
-		</div>
+
 
 		{% endif %}
 

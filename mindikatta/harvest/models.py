@@ -115,9 +115,19 @@ class SalesDocket(models.Model):
     total_leviable_kernel = models.FloatField(
         blank=True, default=0.0, help_text="Total leviable kernel, kg"
     )
-    dehusking_sorting = models.FloatField(
-        blank=True, default=0.0, help_text="Dehusking / Sorting"
+    dehusking_sorting = models.DecimalField(
+        max_digits=8,
+        decimal_places=2,
+        blank=True,
+        default=0,
+        help_text="Dehusking / Sorting",
     )
+
+    # Calculated field
+
+    @property
+    def net_value(self):
+        return self.ncv_total_value - self.total_levy + self.dehusking_sorting
 
     # Map old names to new names...
 
