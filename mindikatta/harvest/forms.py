@@ -16,7 +16,8 @@ class CommonLayout(Layout):
         super(CommonLayout, self).__init__(
             "weight",
             "block",
-            InlineRadios("operation", css_class="btn-group"),
+            # InlineRadios("operation", css_class="btn-group"),
+            "operation",
             Div(
                 Div("from_silo", css_class="col-sm-6"),
                 Div("to_silo", css_class="col-sm-6"),
