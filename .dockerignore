@@ -1,0 +1,4 @@
+cdk*
+__venv__/
+requirements/
+db.sqlite3

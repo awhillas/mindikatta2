@@ -1,60 +1,19 @@
-# Mindikatta v.2
+# Mindikatta v.3
 
 Nut tracking (Django) web app.
 
+This is a Django app that is deployed on a single "fat" lambda function (AWS). The Database us currently hosted on <https://supabase.com/> which is free atm.
+
+## TODO
+
+- [ ] Lambda step function to run once a week to backup DB on supabase (as it doesn't offer backups on free tier).
+
+
 ## Setup
-
-### Heroku
-
-1. [Setup Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli)
-
-    curl https://cli-assets.heroku.com/install.sh | sh
-
-to verify
-
-    heroku --version
-
-then login
-
-    heroku login
-
-[Setup postgresql locally](https://www.cherryservers.com/blog/how-to-install-and-setup-postgresql-server-on-ubuntu-20-04) for dumping and running in development. To get the latest version setup the `apt` certificates
-
-    sudo apt install wget ca-certificates
-    wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
-    sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg main" >> /etc/apt/sources.list.d/pgdg.list'
-
-then install
-
-    sudo apt update
-    apt install postgresql postgresql-contrib
-
-then check the status of the service
-
-    service postgresql status
-
-if its `down`
-
-    12/main (port 5432): online
-    14/main (port 5433): down
-
-start it with, where `14` here is the version of the server
-
-    sudo pg_ctlcluster 14 main start
-
-Your going to have to setup a user and a corresponding DB
-
-    sudo -u postgres createuser --superuser $USER
-    sudo -u postgres createdb $USER
-    touch ~/.psql_history
-
-then typing `psql` should get you into the postgres shell (`\q` to exit). Then dump the online DB to local
-
-    heroku pg:pull DATABASE_URL mindikatta_local --app mindikatta
 
 ### Local python environment
 
-    python3.  -m venv --prompt mindikatta __venv__
+    python3.9 -m venv --prompt mindikatta __venv__
     pip install
 
 ## Database changes

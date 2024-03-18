@@ -1,23 +1,38 @@
  .PHONY: setup requirements go me update
 
-setup: me
-	createdb mindikatta_local
-	pip install pip-tools setuptools wheel
-	pip install -r requirements.txt
+DB_USER=alex
+
+bootstrap:
+	# Run me frist on a new setup
+	pip install uv pip-tools setuptools wheel
+	uv pip install -r requirements.txt
+
+db:
+	docker-compose up -d
+
+db_restore:
+	docker exec -i mindikatta-db-1 pg_restore --verbose --clean --no-acl --no-owner -U postgres -d mindikatta_local < ../latest.dump
+
+
+db_setup:
+	# after starting the db
+	createdb -h localhost -U $(DB_USER) -W mindikatta_local
+	pg_restore --verbose --clean --no-acl --no-owner -h localhost -U $(DB_USER) -d mindikatta_local ../latest.dump
 
 me:
-	python manage.py createsuperuser --username alex --email whillas@gmail.com  --settings=config.local
+	./manage.py createsuperuser --username alex --email whillas@gmail.com --settings=config.local
+	./manage.py changepassword alex
 
 go:
 	# python ./manage.py runserver_plus
 	python ./manage.py runserver
 
 requrements:
-	pip-compile requirements/base.in --output-file requirements.txt
-	pip-compile requirements/dev.in --output-file requirements-dev.txt
+	uv pip compile requirements/base.in --output-file requirements.txt
+	uv pip compile requirements/dev.in --output-file requirements-dev.txt
 
 update: requrements
-	pip install -r requirements-dev.txt
+	uv pip install -r requirements-dev.txt
 
 models:
 	python ./manage.py makemigrations
@@ -50,3 +65,19 @@ db-backup:
 
 db-restore:
 	pg_restore --verbose --clean --create --no-acl --no-owner -h localhost -U alex -d mindikatta_local latest.dump
+
+bootstrap-cdk:
+	sudo npm i -g aws-cdk
+	cdk bootstrap aws://339454265489/ap-southeast-2 --profile whillas
+
+image:
+	# Bulid the docker image for the lambda functions
+	docker build -t mindikatta:latest -t mindikatta:$(shell date '+%Y-%m-%d-%H-%M') .
+
+deploy:
+	# Deploy the CDK stack i.e. the lambda function
+	$(MAKE) -C cdk deploy
+
+redeply:
+	# Redeploy the lambda function
+	$(MAKE) -C cdk redeploy
