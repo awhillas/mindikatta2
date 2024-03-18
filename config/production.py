@@ -3,7 +3,7 @@ import dj_database_url
 from config.settings import *
 
 ALLOWED_HOSTS = [
-    "farm.whillas.com",
+    "*",
 ]
 
 # override databases, use Heroku's

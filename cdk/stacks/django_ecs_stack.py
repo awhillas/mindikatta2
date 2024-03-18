@@ -1,12 +1,13 @@
 import os
 
-from aws_cdk import Duration, Stack
+from aws_cdk import Duration, RemovalPolicy, Stack
 from aws_cdk import aws_certificatemanager as acm
 from aws_cdk import aws_ec2 as ec2
 from aws_cdk import aws_ecr as ecr
 from aws_cdk import aws_ecs as ecs
 from aws_cdk import aws_ecs_patterns as ecs_patterns
 from aws_cdk import aws_elasticloadbalancingv2 as elbv2
+from aws_cdk import aws_logs as logs
 from aws_cdk import aws_route53 as route53
 from aws_cdk import aws_route53_targets as route53_targets
 from constructs import Construct
@@ -53,6 +54,15 @@ class DjangoEcsStack(Stack):
                 "DJANGO_DEBUG": "True",  # should be False for production
                 "DJANGO_SETTINGS_MODULE": "config.production",
             },
+            logging=ecs.LogDrivers.aws_logs(
+                stream_prefix="DjangoContainer",
+                log_group=logs.LogGroup(
+                    self,
+                    "LogGroup",
+                    retention=logs.RetentionDays.ONE_MONTH,
+                    removal_policy=RemovalPolicy.DESTROY,
+                ),
+            ),
         )
 
         # Create a Fargate service
@@ -82,9 +92,9 @@ class DjangoEcsStack(Stack):
             port=80,
             targets=[fargate_service],
             health_check=elbv2.HealthCheck(
-                path="/",
+                path="/api/",
                 enabled=True,
-                healthy_http_codes="200-399",
+                healthy_http_codes="200",
                 timeout=Duration.seconds(5),
             ),
         )
