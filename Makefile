@@ -81,17 +81,3 @@ push:
 go-local:
 	# Run the dcker image locally
 	docker run -p 3000:3000 -e DATABASE_URL=${DATABASE_URL} mindikatta:latest
-
-###### CDK ######
-
-# bootstrap-cdk:
-# 	sudo npm i -g aws-cdk
-# 	cdk bootstrap aws://339454265489/ap-southeast-2 --profile whillas
-
-# deploy:
-# 	# Deploy the CDK stack i.e. the lambda function
-# 	$(MAKE) -C cdk deploy
-
-# redeply:
-# 	# Redeploy the lambda function
-# 	$(MAKE) -C cdk redeploy

@@ -9,5 +9,3 @@ Werkzeug
 pylint
 black
 python-dotenv
-aws-cdk-lib
-# aws-cdk-constructs ??

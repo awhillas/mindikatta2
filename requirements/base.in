@@ -12,8 +12,8 @@ django-filter
 django-html5
 django-settings-export
 django_nose
-numpy
-pandas
+numpy==1.*
+pandas==1.*
 python-dateutil
 pytz
 requests
