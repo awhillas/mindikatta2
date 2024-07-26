@@ -1,6 +1,9 @@
-import dj_database_url
+import os
 
+import dj_database_url
 from config.settings import *
+
+print("Using production settings")
 
 ALLOWED_HOSTS = [
     "*",
@@ -10,6 +13,7 @@ ALLOWED_HOSTS = [
 
 DATABASES = {"default": dj_database_url.config()}
 
+STATIC_ROOT = os.getenv("STATIC_ROOT", "/data/static")
 
 # Email setup
 # see: https://anymail.readthedocs.io/en/stable/installation/

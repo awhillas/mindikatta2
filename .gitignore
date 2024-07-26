@@ -2,6 +2,7 @@ tests/coverage_html/
 tests/.coverage
 build/
 tests/report/
+.dockerhub
 
 .env
 __venv__/

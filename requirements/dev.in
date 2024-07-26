@@ -1,4 +1,6 @@
 -r ../requirements.txt
+setuptools
+wheel
 nose
 django-nose
 Faker
@@ -6,3 +8,6 @@ factory_boy
 Werkzeug
 pylint
 black
+python-dotenv
+aws-cdk-lib
+# aws-cdk-constructs ??
