@@ -71,11 +71,12 @@ update: requrements
 
 image:
 	# Bulid the docker image for the lambda functions
-	docker build -t $(DOCKER_IMAGE):latest -t $(DOCKER_IMAGE):$(shell date '+%Y-%m-%d-%H-%M') .
+	docker buildx build --platform linux/amd64,linux/arm64 --push -t $(DOCKER_IMAGE):latest -t $(DOCKER_IMAGE):$(shell date '+%Y-%m-%d-%H-%M') .
+	docker buildx imagetools inspect $(DOCKER_IMAGE):latest
 
 push:
 	# Push image to docker hub
-	docker login --username=cpill --password $(shell cat .dockerhub)
+	docker login --username=cpill --password $(DOCKER_HUB)
 	docker push $(DOCKER_IMAGE) --all-tags
 
 go-local:
