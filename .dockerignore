@@ -7,9 +7,6 @@ Makefile
 Readme.md
 __pycache__/
 __venv__/
-cdk/
-cdk.out/
 db.sqlite3
 docker-compose.yaml
-k3s/
 requirements/
