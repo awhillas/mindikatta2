@@ -23,19 +23,28 @@ Make changes in the `mindikatta/harvest/models.py` file then
     make models
     make tests
 
-to update the live DB on heroku you need to ssh into the live instance
-
-    heroku run bash
-
 and then run:
 
     python manage.py migrate
 
 ## Deployment
 
-Deployment is to Heroku which monitors the master branch of the github repo that it has created
+### Update `docker buildx`
 
-    make deploy
+Beacuse we're building for Raspberry Pi (arm64) architecute we need to use `docker buildx`, which means we need to update local buildx to add arm64 architecture build target 
+
+From [Building Multi-Arch Images for Arm and x86 with Docker Desktop](https://www.docker.com/blog/multi-arch-images/)
+
+    docker buildx create --name mybuilder
+    docker buildx use mybuilder
+    docker buildx inspect --bootstrap
+
+then we should be able to 
+
+    make image
+    make push
+
+to build the image and then push it to Dockerhub
 
 ## Feature Requests
 
