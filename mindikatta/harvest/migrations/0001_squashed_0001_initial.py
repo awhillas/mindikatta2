@@ -158,6 +158,6 @@ class Migration(migrations.Migration):
             ],
         ),
         # migrations.RunPython(load_fixtures),
-        migrations.RunSQL(load_from_sql()),
+        # migrations.RunSQL(load_from_sql()),
         migrations.RunSQL(update_indexes()),
     ]
