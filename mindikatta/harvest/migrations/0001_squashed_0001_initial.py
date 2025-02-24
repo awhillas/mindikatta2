@@ -17,7 +17,7 @@ def load_from_sql():
 
     from config.settings import BASE_DIR
 
-    sql = open(os.path.join(BASE_DIR, "data", "2024-07-mindikatta.sql"), "r").read()
+    sql = open(os.path.join(BASE_DIR, "data", "2024-09-mindikatta.sql"), "r").read()
     return sql
 
 

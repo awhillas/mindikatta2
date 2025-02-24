@@ -1,8 +1,21 @@
 --
+-- Data for Name: harvest_farm; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+TRUNCATE TABLE public.harvest_farm RESTART IDENTITY CASCADE;
+COPY public.harvest_farm (id, name, address) FROM STDIN;
+MK	Mindikatta	326 Rosebank Rd
+OC	Old Cudgerie	237 Rosebank Rd
+WW	Water Wheel	275 Rosebank Rd
+\.
+
+
+--
 -- Data for Name: harvest_block; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.harvest_block (id, name, charting_colour, farm_id) FROM stdin;
+TRUNCATE TABLE public.harvest_block RESTART IDENTITY CASCADE;
+COPY public.harvest_block (id, name, charting_colour, farm_id) FROM STDIN;
 1	H2/East block	00ffff	MK
 2	H2/School block	0000ff	MK
 3	Owners Choice (OC)	008000	MK
@@ -10,8 +23,8 @@ COPY public.harvest_block (id, name, charting_colour, farm_id) FROM stdin;
 5	D4	008080	MK
 6	246	000080	MK
 7	floaters (MK)	800000	MK
-57	Mixed (OC)		OC
-56	Mixed (WW/NC)		WW
+57	Mixed (OC)	800000	OC
+56	Mixed (WW/NC)	800000	WW
 58	floaters (OC)	800000	OC
 59	floaters (WW)	800000	WW
 60	10 acre	800800	OC
@@ -24,21 +37,11 @@ COPY public.harvest_block (id, name, charting_colour, farm_id) FROM stdin;
 
 
 --
--- Data for Name: harvest_farm; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.harvest_farm (id, name, address) FROM stdin;
-MK	Mindikatta	326 Rosebank Rd
-OC	Old Cudgerie	237 Rosebank Rd
-WW	Water Wheel	275 Rosebank Rd
-\.
-
-
---
 -- Data for Name: harvest_salesdocket; Type: TABLE DATA; Schema: public; Owner: postgres
 --
+TRUNCATE TABLE public.harvest_salesdocket RESTART IDENTITY CASCADE;
 
-COPY public.harvest_salesdocket (id, consignment_number, delivery_date, kg_weight_received, moisture_content_pct, net_payment, kg_weight10_pct_mc, ncv_total_value, block_id, dehusking_sorting, docket_number, total_leviable_kernel, total_levy) FROM stdin;
+COPY public.harvest_salesdocket (id, consignment_number, delivery_date, kg_weight_received, moisture_content_pct, net_payment, kg_weight10_pct_mc, ncv_total_value, block_id, dehusking_sorting, docket_number, total_leviable_kernel, total_levy) FROM STDIN;
 1	0325	2011-03-23	4720	23.8	8092.51	0	0.00	\N	0.00	0	0	0.00
 2	0342	2011-04-01	5500	18.4	14845.40	0	0.00	\N	0.00	0	0	0.00
 3	526	2011-04-12	2280	0	5160.23	0	0.00	\N	0.00	0	0	0.00
@@ -227,8 +230,9 @@ COPY public.harvest_salesdocket (id, consignment_number, delivery_date, kg_weigh
 --
 -- Data for Name: harvest_silo; Type: TABLE DATA; Schema: public; Owner: postgres
 --
+TRUNCATE TABLE public.harvest_silo RESTART IDENTITY CASCADE;
 
-COPY public.harvest_silo (id, name, capacity, export) FROM stdin;
+COPY public.harvest_silo (id, name, capacity, export) FROM STDIN;
 1	#1, Export	15000	1
 2	#2	15000	0
 3	#3	11500	0
@@ -246,8 +250,9 @@ COPY public.harvest_silo (id, name, capacity, export) FROM stdin;
 --
 -- Data for Name: harvest_weighings; Type: TABLE DATA; Schema: public; Owner: postgres
 --
+TRUNCATE TABLE public.harvest_weighings RESTART IDENTITY CASCADE;
 
-COPY public.harvest_weighings (id, operation, weight, report_date, from_silo_id, to_silo_id, block_id) FROM stdin;
+COPY public.harvest_weighings (id, operation, weight, report_date, from_silo_id, to_silo_id, block_id) FROM STDIN;
 3118	dehusk	550	2017-08-22 14:00:00+00	\N	9	56
 3121	dehusk	350	2017-08-27 14:00:00+00	\N	9	56
 2901	dehusk	650	2017-03-26 13:00:00+00	\N	3	2
@@ -4192,13 +4197,38 @@ COPY public.harvest_weighings (id, operation, weight, report_date, from_silo_id,
 4425	resort	4612	2024-07-04 14:00:00+00	5	1	4
 4436	dehusk	800	2024-07-22 14:00:00+00	\N	9	65
 4437	dehusk	550	2024-07-22 14:00:00+00	\N	9	62
-4438	resort	7900	2024-07-23 14:00:00+00	1	6	1
 4440	dehusk	625	2024-07-23 14:00:00+00	\N	9	63
 4441	dehusk	1075	2024-07-23 14:00:00+00	\N	9	62
-4442	sale	7900	2024-07-28 14:00:00+00	6	\N	1
 4439	sale	7380	2024-07-24 14:00:00+00	8	\N	56
 4435	resort	7380	2024-07-22 14:00:00+00	4	8	56
 4443	dehusk	1400	2024-07-25 14:00:00+00	\N	5	4
 4444	dehusk	575	2024-07-24 14:00:00+00	\N	9	60
 4445	dehusk	825	2024-07-25 14:00:00+00	\N	9	60
+4446	dehusk	2275	2024-07-29 14:00:00+00	\N	5	5
+4447	dehusk	2575	2024-07-28 14:00:00+00	\N	9	60
+4448	dehusk	925	2024-07-29 14:00:00+00	\N	11	60
+4449	dehusk	1150	2024-07-29 14:00:00+00	\N	11	64
+4451	dehusk	2500	2024-07-30 14:00:00+00	\N	11	64
+4450	dehusk	6600	2024-07-31 14:00:00+00	\N	5	5
+4452	dehusk	1875	2024-07-31 14:00:00+00	\N	11	64
+4453	dehusk	1325	2024-08-01 14:00:00+00	\N	11	64
+4442	sale	7570	2024-07-28 14:00:00+00	6	\N	1
+4438	resort	7570	2024-07-23 14:00:00+00	1	6	1
+4461	dehusk	875	2024-08-22 14:00:00+00	\N	11	56
+4459	resort	8473	2024-08-06 14:00:00+00	5	1	5
+4460	sale	8473	2024-08-06 14:00:00+00	1	\N	5
+4457	sale	8390	2024-08-06 14:00:00+00	8	\N	57
+4455	resort	8390	2024-08-04 14:00:00+00	9	8	57
+4456	resort	8575	2024-08-06 14:00:00+00	11	8	57
+4458	sale	8575	2024-08-06 14:00:00+00	8	\N	57
+4462	dehusk	250	2024-08-25 14:00:00+00	\N	11	56
+4463	dehusk	550	2024-08-26 14:00:00+00	\N	11	56
+4464	resort	1700	2024-08-28 14:00:00+00	9	8	56
+4466	sale	2175	2024-09-01 14:00:00+00	8	\N	56
+4468	sale	8600	2024-09-10 14:00:00+00	1	\N	6
+4467	resort	8600	2024-09-09 14:00:00+00	2	1	6
+4465	dehusk	8600	2024-09-01 14:00:00+00	\N	2	6
+4470	resort	8320	2024-09-15 14:00:00+00	5	1	5
+4469	dehusk	8500	2024-09-10 14:00:00+00	\N	5	5
+4471	sale	8320	2024-09-17 14:00:00+00	1	\N	5
 \.

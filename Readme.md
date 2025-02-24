@@ -2,11 +2,11 @@
 
 Nut tracking (Django) web app.
 
-This is a Django app that is deployed on a single "fat" lambda function (AWS). The Database us currently hosted on <https://supabase.com/> which is free atm.
+This is a Django app that is deployed on a Raspberry Pi.
 
 ## TODO
 
-- [ ] Lambda step function to run once a week to backup DB on supabase (as it doesn't offer backups on free tier).
+- [ ] Figureout some sort of backup system for DB
 
 
 ## Setup

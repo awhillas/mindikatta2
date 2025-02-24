@@ -26,6 +26,7 @@ DATABASES = {
 		'HOST': os.getenv("POSTGRES_HOST"),
 	}
 }
+print(DATABASES)
 
 STATIC_ROOT = os.getenv("STATIC_ROOT", "/data/static")
 
